@@ -27,12 +27,14 @@ const MovieCard = ({
       <Box w="45%" flexShrink="0">
         <Image
           src={`${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w154}${poster_path}`}
+          htmlWidth={154}
+          htmlHeight={231}
           borderRadius={8}
         />
       </Box>
       <Flex direction="column" w="full" pl={3} py={3}>
         <Box flexGrow="1">
-          <Heading as="h3" size="xs">
+          <Heading as="h3" size="xs" noOfLines={2}>
             {title}
           </Heading>
           <Stack mt={3}>
@@ -40,14 +42,14 @@ const MovieCard = ({
               {genre_ids.map(mapGenreIdToGenre).join(", ")}
             </Text>
           </Stack>
-          {vote_average && (
+          {vote_average ? (
             <Flex direction="row" mt={3}>
               <Icon as={FaStar} mr="2" color="yellow.400"></Icon>
               <Text fontSize="xs" fontWeight="semibold">
                 {vote_average}
               </Text>
             </Flex>
-          )}
+          ) : null}
         </Box>
         <Box flexShrink="0">
           <Button isFullWidth size="sm">
