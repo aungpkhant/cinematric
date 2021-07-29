@@ -10,7 +10,9 @@
       "@/layouts/*": ["layouts/*"],
       "@/hooks/*": ["hooks/*"],
       "@/config/*": ["config/*"],
-      "@/_data/*": ["_data/*"]
+      "@/_data/*": ["_data/*"],
+      "@/services/*": ["services/*"],
+      "@/constants/*": ["constants/*"]
     }
   }
 }

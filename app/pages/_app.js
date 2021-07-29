@@ -9,10 +9,10 @@ const GlobalStyle = ({ children }) => {
       <Global
         styles={css`
           html {
-            min-width: 360px;
             scroll-behavior: smooth;
           }
           #__next {
+            background-color: ${theme.colors.elevation["100"]};
             display: flex;
             flex-direction: column;
             min-height: 100vh;
