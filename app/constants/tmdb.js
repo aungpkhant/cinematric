@@ -19,6 +19,13 @@ export const TMDB_POSTER_SIZES = {
   original: "original",
 };
 
+export const TMDB_PROFILE_SIZES = {
+  w45: "w45",
+  w185: "w185",
+  h632: "h632",
+  original: "original",
+};
+
 export const MOVIE_GENRES = {
   12: "Adventure",
   14: "Fantasy",

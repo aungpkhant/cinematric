@@ -7,5 +7,7 @@ export const getPopularMovies = (page) => {
 };
 
 export const getMovieDetail = (movieId) => {
-  return fetchTmdb("GET", `/movie/${movieId}`);
+  return fetchTmdb("GET", `/movie/${movieId}`, {
+    append_to_response: "credits",
+  });
 };
