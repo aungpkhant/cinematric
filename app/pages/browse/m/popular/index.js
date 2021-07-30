@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from "react";
-import { Center, Stack } from "@chakra-ui/react";
+import { Heading, Center, Stack } from "@chakra-ui/react";
 import router, { useRouter } from "next/router";
 
 import BrowseLayout from "@/layouts/browse";
@@ -27,7 +27,13 @@ export default function PopularMoviesPage() {
   };
 
   return (
-    <BrowseLayout title="Popular Movies">
+    <BrowseLayout
+      title={
+        <Heading as="h2" size="lg">
+          Popular Movies
+        </Heading>
+      }
+    >
       {status === "success" && (
         <Center mb={6}>
           <Pagination

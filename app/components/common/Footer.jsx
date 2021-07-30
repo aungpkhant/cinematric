@@ -7,9 +7,11 @@ const Footer = () => {
       as="footer"
       justifyContent="center"
       alignItems="center"
-      mt={6}
+      mt={4}
       fontSize="sm"
       fontWeight="semibold"
+      py={4}
+      color="gray.400"
     >
       Made with ❤️ by aungpkhant
     </Flex>

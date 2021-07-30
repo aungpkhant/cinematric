@@ -6,15 +6,14 @@ import Header from "@/components/common/Header";
 import SearchBar from "@/components/common/SearchBar";
 import Footer from "@/components/common/Footer";
 
-const BrowseLayout = ({ title, children }) => {
+const MovieDetailLayout = ({ backdrop, children }) => {
   return (
     <Flex direction="column">
-      <Stack direction="column" mb={6} spacing={6} px={4} pt={4}>
-        {/* Brand & Profile bar */}
+      {/* Brand & Profile bar */}
+      <Stack p={4}>
         <Header />
-        <SearchBar />
-        {title}
       </Stack>
+      {backdrop}
       <Flex direction="column" p={4}>
         {children}
       </Flex>
@@ -23,9 +22,9 @@ const BrowseLayout = ({ title, children }) => {
   );
 };
 
-BrowseLayout.propTypes = {
-  title: PropTypes.node.isRequired,
+MovieDetailLayout.propTypes = {
+  backdrop: PropTypes.node.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-export default BrowseLayout;
+export default MovieDetailLayout;

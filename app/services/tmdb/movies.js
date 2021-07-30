@@ -5,3 +5,7 @@ import fetchTmdb from "@/lib/fetchTmdb";
 export const getPopularMovies = (page) => {
   return fetchTmdb("GET", "/movie/popular", { page });
 };
+
+export const getMovieDetail = (movieId) => {
+  return fetchTmdb("GET", `/movie/${movieId}`);
+};
