@@ -5,6 +5,7 @@ import { Flex, Stack } from "@chakra-ui/react";
 import Header from "@/components/common/Header";
 import SearchBar from "@/components/common/SearchBar";
 import Footer from "@/components/common/Footer";
+import CategoryBar from "@/components/common/CategoryBar";
 
 const BrowseLayout = ({ title, children }) => {
   return (
@@ -13,6 +14,7 @@ const BrowseLayout = ({ title, children }) => {
         {/* Brand & Profile bar */}
         <Header />
         <SearchBar />
+        <CategoryBar />
         {title}
       </Stack>
       <Flex direction="column" p={4}>
