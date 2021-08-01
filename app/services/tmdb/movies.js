@@ -11,3 +11,10 @@ export const getMovieDetail = (movieId) => {
     append_to_response: "credits",
   });
 };
+
+export const getMoviesByGenre = (genreId, page) => {
+  return fetchTmdb("GET", `/discover/movie`, {
+    with_genres: genreId,
+    page,
+  });
+};
