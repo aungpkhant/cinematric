@@ -19,24 +19,124 @@ export const TMDB_POSTER_SIZES = {
   original: "original",
 };
 
-export const MOVIE_GENRES = {
-  12: "Adventure",
-  14: "Fantasy",
-  16: "Animation",
-  18: "Drama",
-  27: "Horror",
-  28: "Action",
-  35: "Comedy",
-  36: "History",
-  37: "Western",
-  53: "Thriller",
-  80: "Crime",
-  99: "Documentary",
-  878: "Science Fiction",
-  9648: "Mystery",
-  10402: "Music",
-  10749: "Romance",
-  10751: "Family",
-  10752: "War",
-  10770: "TV Movie",
+export const TMDB_PROFILE_SIZES = {
+  w45: "w45",
+  w185: "w185",
+  h632: "h632",
+  original: "original",
 };
+
+export const MOVIE_GENRES = {
+  12: {
+    id: 12,
+    slug: "adventure",
+    value: "Adventure",
+  },
+  14: {
+    id: 14,
+    slug: "fantasy",
+    value: "Fantasy",
+  },
+  16: {
+    id: 16,
+    slug: "animation",
+    value: "Animation",
+  },
+  18: {
+    id: 18,
+    slug: "drama",
+    value: "Drama",
+  },
+  27: {
+    id: 27,
+    slug: "horror",
+    value: "Horror",
+  },
+  28: {
+    id: 28,
+    slug: "action",
+    value: "Action",
+  },
+  35: {
+    id: 35,
+    slug: "comedy",
+    value: "Comedy",
+  },
+  36: {
+    id: 36,
+    slug: "history",
+    value: "History",
+  },
+  37: {
+    id: 37,
+
+    slug: "western",
+    value: "Western",
+  },
+  53: {
+    id: 53,
+
+    slug: "thriller",
+    value: "Thriller",
+  },
+  80: {
+    id: 80,
+    slug: "crime",
+    value: "Crime",
+  },
+  99: {
+    id: 99,
+    slug: "documentary",
+    value: "Documentary",
+  },
+  878: {
+    id: 878,
+    slug: "science-fiction",
+    value: "Science Fiction",
+  },
+  9648: {
+    id: 9648,
+    slug: "mystery",
+    value: "Mystery",
+  },
+  10402: {
+    id: 10402,
+    slug: "music",
+    value: "Music",
+  },
+  10749: {
+    id: 10749,
+    slug: "romance",
+    value: "Romance",
+  },
+  10751: {
+    id: 10751,
+    slug: "family",
+    value: "Family",
+  },
+  10752: {
+    id: 10752,
+    slug: "war",
+    value: "War",
+  },
+  10770: {
+    id: 10770,
+    slug: "tv-movie",
+    value: "TV Movie",
+  },
+};
+
+const BASE_BROWSE_URL = "/browse/m";
+const BASE_BROWSE_GENRE_URL = "/browse/m/genre";
+
+export const CATEGORIES = [
+  {
+    slug: "popular",
+    value: "Popular",
+    path: `${BASE_BROWSE_URL}/popular`,
+  },
+  ...Object.values(MOVIE_GENRES).map((genre) => ({
+    ...genre,
+    path: `${BASE_BROWSE_GENRE_URL}/${genre.slug}`,
+  })),
+];
