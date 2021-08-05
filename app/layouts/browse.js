@@ -7,14 +7,14 @@ import SearchBar from "@/components/common/SearchBar";
 import Footer from "@/components/common/Footer";
 import CategoryBar from "@/components/common/CategoryBar";
 
-const BrowseLayout = ({ title, children }) => {
+const BrowseLayout = ({ title, withCategoryBar = false, children }) => {
   return (
-    <Flex direction="column">
+    <Flex direction="column" flexGrow="1">
       <Stack direction="column" mb={6} spacing={6} px={4} pt={4}>
         {/* Brand & Profile bar */}
         <Header />
         <SearchBar />
-        <CategoryBar />
+        {withCategoryBar && <CategoryBar />}
         {title}
       </Stack>
       <Flex direction="column" p={4}>

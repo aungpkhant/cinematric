@@ -35,6 +35,7 @@ export default function BrowseMovieGenrePage({ genre }) {
           {genre.value} Movies
         </Heading>
       }
+      withCategoryBar
     >
       {status === "success" && (
         <Center mb={6}>

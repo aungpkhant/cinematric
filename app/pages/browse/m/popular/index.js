@@ -33,6 +33,7 @@ export default function PopularMoviesPage() {
           Popular Movies
         </Heading>
       }
+      withCategoryBar
     >
       {status === "success" && (
         <Center mb={6}>
