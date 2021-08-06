@@ -1,7 +1,7 @@
 import React from "react";
 import { Flex } from "@chakra-ui/react";
 
-const Footer = () => {
+const Footer = ({ ...props }) => {
   return (
     <Flex
       as="footer"
@@ -12,6 +12,7 @@ const Footer = () => {
       py={4}
       color="gray.400"
       mt="auto"
+      {...props}
     >
       Made with ❤️ by aungpkhant
     </Flex>

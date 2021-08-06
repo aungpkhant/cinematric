@@ -56,7 +56,15 @@ const MovieCard = ({
               ) : null}
             </Box>
             <Box flexShrink="0">
-              <Button isFullWidth size="sm">
+              <Button
+                isFullWidth
+                size="sm"
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+                colorScheme="apple"
+                color="apple.800"
+              >
                 Watch Trailer
               </Button>
             </Box>

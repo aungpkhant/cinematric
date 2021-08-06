@@ -6,7 +6,7 @@ import NextLink from "next/link";
 const Header = () => {
   return (
     <Flex direction="row" justifyContent="space-between" alignItems="center">
-      <NextLink href={"/browse/m/popular"}>
+      <NextLink href={"/"}>
         <Heading as="h1" size="md">
           Cinematric
         </Heading>
