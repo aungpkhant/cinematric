@@ -15,6 +15,7 @@ import NextLink from "next/link";
 
 import { TMDB_IMG_BASE_URL, TMDB_POSTER_SIZES } from "@/constants/tmdb";
 import { mapGenreIdToGenre } from "@/utils/movies";
+import Poster404 from "@/assets/FourOFour/poster-404.jpg";
 
 const MovieCard = ({
   id,
@@ -28,12 +29,16 @@ const MovieCard = ({
     <NextLink href={`/m/${id}`}>
       <a>
         <Flex direction="row">
-          <Box w="45%" flexShrink="0">
+          <Box w="45%" flexShrink="0" borderRadius={8} overflow="hidden">
             <Image
-              src={`${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w342}${poster_path}`}
+              src={
+                poster_path
+                  ? `${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w342}${poster_path}`
+                  : Poster404.src
+              }
               htmlWidth={342}
               htmlHeight={513}
-              borderRadius={8}
+              alt={`Poster - ${title}`}
             />
           </Box>
           <Flex direction="column" w="full" pl={3} py={3}>
