@@ -3,6 +3,8 @@ import { Button, Flex, Stack, Heading, Box } from "@chakra-ui/react";
 import NextLink from "next/link";
 
 import LandingCards from "@/components/landing/LandingCards";
+import Features from "@/components/landing/Features";
+import BrandButton from "@/components/base/Button";
 
 export default function LandingPage({ children }) {
   return (
@@ -18,10 +20,10 @@ export default function LandingPage({ children }) {
             <Flex justifyContent="center">
               <Stack direction="row" spacing={4} w="fit-content">
                 <NextLink href="/browse/m/popular">
-                  <Button colorScheme="apple">Browse Movies</Button>
+                  <BrandButton>Browse Movies</BrandButton>
                 </NextLink>
                 <NextLink href="/browse/m/popular">
-                  <Button colorScheme="apple">Browse TV</Button>
+                  <BrandButton>Browse TV</BrandButton>
                 </NextLink>
               </Stack>
             </Flex>
@@ -37,10 +39,8 @@ export default function LandingPage({ children }) {
               ></path>
             </svg>
           </Box>
-          <Box mt={4} p={4}>
-            {/* <Heading as="h2" textAlign="center">
-              Read Reviews
-            </Heading> */}
+          <Box mt={4} p={4} mb={12}>
+            <Features />
           </Box>
         </Box>
       </Flex>
