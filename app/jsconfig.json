@@ -12,7 +12,8 @@
       "@/config/*": ["config/*"],
       "@/_data/*": ["_data/*"],
       "@/services/*": ["services/*"],
-      "@/constants/*": ["constants/*"]
+      "@/constants/*": ["constants/*"],
+      "@/assets/*": ["assets/*"]
     }
   }
 }
