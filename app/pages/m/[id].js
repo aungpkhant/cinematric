@@ -24,13 +24,14 @@ export default function MovieDetailPage() {
   );
 
   const backdrops = value?.data?.images?.backdrops;
+  console.log({ backdrops });
 
   return (
     <MovieDetailLayout
       backdrop={
         status === "success" ? (
           <>
-            {backdrops ? (
+            {backdrops.length > 0 ? (
               <SwipeableViews enableMouseEvents>
                 {backdrops.map(({ file_path }) => (
                   <MovieDetailBackdrop
