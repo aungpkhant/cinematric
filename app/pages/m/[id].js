@@ -1,6 +1,7 @@
 import { useEffect, useCallback } from "react";
 import { Box } from "@chakra-ui/react";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
+import SwipeableViews from "react-swipeable-views";
 
 import MovieDetailLayout from "@/layouts/movieDetail";
 import MovieDetail from "@/components/cinema/MovieDetail";
@@ -22,11 +23,26 @@ export default function MovieDetailPage() {
     isReady
   );
 
+  const backdrops = value?.data?.images?.backdrops;
+
   return (
     <MovieDetailLayout
       backdrop={
         status === "success" ? (
-          <MovieDetailBackdrop backdrop_path={value.data.backdrop_path} />
+          <>
+            {backdrops ? (
+              <SwipeableViews enableMouseEvents>
+                {backdrops.map(({ file_path }) => (
+                  <MovieDetailBackdrop
+                    key={file_path}
+                    backdrop_path={file_path}
+                  />
+                ))}
+              </SwipeableViews>
+            ) : (
+              <MovieDetailBackdrop />
+            )}
+          </>
         ) : (
           <MovieBackdropSkeleton />
         )

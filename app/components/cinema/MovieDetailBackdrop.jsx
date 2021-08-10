@@ -15,6 +15,7 @@ const MovieDetailBackdrop = ({ backdrop_path }) => {
       }
       backgroundSize="cover"
       backgroundPosition="center"
+      overflowY="hidden"
       _after={{
         content: `""`,
         position: "absolute",

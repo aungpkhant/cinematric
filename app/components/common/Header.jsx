@@ -1,5 +1,13 @@
 import React from "react";
-import { IconButton, Heading, Flex, Stack, Box } from "@chakra-ui/react";
+import {
+  IconButton,
+  Heading,
+  Flex,
+  Stack,
+  Box,
+  Switch,
+  FormLabel,
+} from "@chakra-ui/react";
 import { FaRegUser } from "react-icons/fa";
 import NextLink from "next/link";
 
@@ -11,9 +19,15 @@ const Header = () => {
           Cinematric
         </Heading>
       </NextLink>
-      <Box>
-        <IconButton size="sm" icon={<FaRegUser />} isRound />
-      </Box>
+      <Stack direction="row" alignSelf="flex-end">
+        <FormLabel htmlFor="browse-movie-tv-toggle" mb="0" mx="0">
+          Movie
+        </FormLabel>
+        <Switch id="browse-movie-tv-toggle" colorScheme="apple" size="md" />
+        <FormLabel htmlFor="browse-movie-tv-toggle" mb="0">
+          TV
+        </FormLabel>
+      </Stack>
     </Flex>
   );
 };
