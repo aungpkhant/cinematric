@@ -43,7 +43,7 @@ const MovieCard = ({
           </Box>
           <Flex direction="column" w="full" pl={3} py={3}>
             <Box flexGrow="1">
-              <Heading as="h3" size="xs" noOfLines={2}>
+              <Heading as="h3" size="sm" noOfLines={2}>
                 {title}
               </Heading>
               <Stack mt={3}>

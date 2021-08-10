@@ -1,6 +1,11 @@
 import { extendTheme } from "@chakra-ui/react";
+import { theme as chakraTheme } from "@chakra-ui/react";
 
 const themeExtension = {
+  fonts: {
+    heading: `"Montserrat Alternates"`,
+    body: `"Fira Sans"`,
+  },
   colors: {
     // Material Design
     // https://material.io/design/color/dark-theme.html#color-usage-and-palettes
