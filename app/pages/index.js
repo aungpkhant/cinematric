@@ -22,7 +22,7 @@ export default function LandingPage({ children }) {
                 <NextLink href="/browse/m/popular">
                   <BrandButton>Browse Movies</BrandButton>
                 </NextLink>
-                <NextLink href="/browse/m/popular">
+                <NextLink href="/browse/tv/popular">
                   <BrandButton>Browse TV</BrandButton>
                 </NextLink>
               </Stack>

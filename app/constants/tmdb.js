@@ -126,6 +126,89 @@ export const MOVIE_GENRES = {
   },
 };
 
+export const TV_GENRES = {
+  16: {
+    id: 16,
+    slug: "animation",
+    value: "Animation",
+  },
+  18: {
+    id: 18,
+    slug: "drama",
+    value: "Drama",
+  },
+  35: {
+    id: 35,
+    slug: "comedy",
+    value: "Comedy",
+  },
+  37: {
+    id: 37,
+    slug: "western",
+    value: "Western",
+  },
+  80: {
+    id: 80,
+    slug: "crime",
+    value: "Crime",
+  },
+  99: {
+    id: 99,
+    slug: "documentary",
+    value: "Documentary",
+  },
+  9648: {
+    id: 9648,
+    slug: "mystery",
+    value: "Mystery",
+  },
+  10751: {
+    id: 10751,
+    slug: "family",
+    value: "Family",
+  },
+  10759: {
+    id: 10759,
+    slug: "action-and-adventure",
+    value: "Action & Adventure",
+  },
+  10762: {
+    id: 10762,
+    slug: "kids",
+    value: "Kids",
+  },
+  10763: {
+    id: 10763,
+    slug: "news",
+    value: "News",
+  },
+  10764: {
+    id: 10764,
+    slug: "reality",
+    value: "Reality",
+  },
+  10765: {
+    id: 10765,
+    slug: "scifi-and-fantasy",
+    value: "Sci-Fi & Fantasy",
+  },
+  10766: {
+    id: 10766,
+    slug: "soap",
+    value: "Soap",
+  },
+  10767: {
+    id: 10767,
+    slug: "talk",
+    value: "Talk",
+  },
+  10768: {
+    id: 10768,
+    slug: "war-and-politics",
+    value: "War & Politics",
+  },
+};
+
 const BASE_BROWSE_URL = "/browse/m";
 const BASE_BROWSE_GENRE_URL = "/browse/m/genre";
 

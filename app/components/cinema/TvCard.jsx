@@ -1,5 +1,4 @@
 import React from "react";
-import { Skeleton } from "@chakra-ui/skeleton";
 import {
   Box,
   Heading,
@@ -14,19 +13,19 @@ import { FaStar } from "react-icons/fa";
 import NextLink from "next/link";
 
 import { TMDB_IMG_BASE_URL, TMDB_POSTER_SIZES } from "@/constants/tmdb";
-import { mapMovieGenreIdToGenre } from "@/utils/movies";
+import { mapTvGenreIdToGenre } from "@/utils/tv";
 import Poster404 from "@/assets/FourOFour/poster-404.jpg";
 
-const MovieCard = ({
+const TvCard = ({
   id,
-  title,
+  name,
   genre_ids,
   overview,
   vote_average,
   poster_path,
 }) => {
   return (
-    <NextLink href={`/m/${id}`}>
+    <NextLink href={`/tv/${id}`}>
       <a>
         <Flex direction="row">
           <Box w="45%" flexShrink="0" borderRadius={8} overflow="hidden">
@@ -38,17 +37,17 @@ const MovieCard = ({
               }
               htmlWidth={342}
               htmlHeight={513}
-              alt={`Poster - ${title}`}
+              alt={`Poster - ${name}`}
             />
           </Box>
           <Flex direction="column" w="full" pl={3} py={3}>
             <Box flexGrow="1">
               <Heading as="h3" size="sm" noOfLines={2}>
-                {title}
+                {name}
               </Heading>
               <Stack mt={3}>
                 <Text fontSize="xs" color="gray.400" noOfLines={2}>
-                  {genre_ids.map(mapMovieGenreIdToGenre).join(", ")}
+                  {genre_ids.map(mapTvGenreIdToGenre).join(", ")}
                 </Text>
               </Stack>
               {vote_average ? (
@@ -80,4 +79,4 @@ const MovieCard = ({
   );
 };
 
-export default MovieCard;
+export default TvCard;

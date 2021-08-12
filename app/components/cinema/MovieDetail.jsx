@@ -12,7 +12,7 @@ import {
 
 import { formatRuntime } from "@/utils/movies";
 import Cast from "@/components/cinema/Cast";
-import { mapGenreIdToGenre } from "@/utils/movies";
+import { mapMovieGenreIdToGenre } from "@/utils/movies";
 
 const MovieDetail = ({
   title,
