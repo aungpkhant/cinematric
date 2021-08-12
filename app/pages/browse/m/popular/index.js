@@ -6,8 +6,9 @@ import BrowseLayout from "@/layouts/browse";
 import useAsync from "@/hooks/useAsync";
 import { getPopularMovies } from "@/services/tmdb/movies";
 import MovieCard from "@/components/cinema/MovieCard";
-import MovieCardSkeleton from "@/components/skeletons/MovieCardSkeleton";
+import CardSkeleton from "@/components/skeletons/CardSkeleton";
 import Pagination from "@/components/common/Pagination";
+import MovieCategoryBar from "@/components/cinema/MovieCategoryBar";
 
 export default function PopularMoviesPage() {
   const { pathname, query, isReady, push } = useRouter();
@@ -33,7 +34,7 @@ export default function PopularMoviesPage() {
           Popular Movies
         </Heading>
       }
-      withCategoryBar
+      categoryBar={<MovieCategoryBar />}
     >
       {status === "success" && (
         <Center mb={6}>
@@ -47,7 +48,7 @@ export default function PopularMoviesPage() {
       )}
       <Stack direction="column" spacing={4}>
         {status === "pending" &&
-          new Array(4).fill().map((_, i) => <MovieCardSkeleton key={i} />)}
+          new Array(4).fill().map((_, i) => <CardSkeleton key={i} />)}
         {status === "success" &&
           value.data.results.map((movie) => (
             <MovieCard key={movie.id} {...movie} />

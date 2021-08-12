@@ -2,7 +2,7 @@ import React from "react";
 import { Skeleton } from "@chakra-ui/skeleton";
 import { Flex, Stack } from "@chakra-ui/react";
 
-const MovieCardSkeleton = () => {
+const CardSkeleton = () => {
   return (
     <Flex direction="row">
       <Skeleton w="45%" h="100px" flexShrink="0" />
@@ -16,4 +16,4 @@ const MovieCardSkeleton = () => {
   );
 };
 
-export default MovieCardSkeleton;
+export default CardSkeleton;

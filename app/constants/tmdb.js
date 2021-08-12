@@ -209,17 +209,31 @@ export const TV_GENRES = {
   },
 };
 
-const BASE_BROWSE_URL = "/browse/m";
-const BASE_BROWSE_GENRE_URL = "/browse/m/genre";
+const BASE_MOVIE_BROWSE_URL = "/browse/m";
+const BASE_MOVIE_BROWSE_GENRE_URL = "/browse/m/genre";
+const BASE_TV_BROWSE_URL = "/browse/tv";
+const BASE_TV_BROWSE_GENRE_URL = "/browse/tv/genre";
 
-export const CATEGORIES = [
+export const MOVIE_CATEGORIES = [
   {
     slug: "popular",
     value: "Popular",
-    path: `${BASE_BROWSE_URL}/popular`,
+    path: `${BASE_MOVIE_BROWSE_URL}/popular`,
   },
   ...Object.values(MOVIE_GENRES).map((genre) => ({
     ...genre,
-    path: `${BASE_BROWSE_GENRE_URL}/${genre.slug}`,
+    path: `${BASE_MOVIE_BROWSE_GENRE_URL}/${genre.slug}`,
+  })),
+];
+
+export const TV_CATEGORIES = [
+  {
+    slug: "popular",
+    value: "Popular",
+    path: `${BASE_TV_BROWSE_URL}/popular`,
+  },
+  ...Object.values(TV_GENRES).map((genre) => ({
+    ...genre,
+    path: `${BASE_TV_BROWSE_GENRE_URL}/${genre.slug}`,
   })),
 ];

@@ -1,37 +1,39 @@
-import { useEffect, useCallback } from "react";
-import { Heading, Center, Stack } from "@chakra-ui/react";
-import router, { useRouter } from "next/router";
-
+import React, { useCallback } from "react";
 import BrowseLayout from "@/layouts/browse";
+import { useRouter } from "next/router";
+import { Heading, Center, Stack } from "@chakra-ui/react";
+
 import useAsync from "@/hooks/useAsync";
-import { getPopularTv } from "@/services/tmdb/tv";
+import { TV_GENRES } from "@/constants/tmdb";
+import { getTvByGenre } from "@/services/tmdb/tv";
+
 import TvCard from "@/components/cinema/TvCard";
 import CardSkeleton from "@/components/skeletons/CardSkeleton";
 import Pagination from "@/components/common/Pagination";
 import TvCategoryBar from "@/components/cinema/TvCategoryBar";
 
-export default function PopularTvPage() {
-  const { pathname, query, isReady, push } = useRouter();
+export default function BrowseTvGenrePage({ genre }) {
+  const { asPath, query, isReady, push } = useRouter();
 
-  const memoizedGetPopularTv = useCallback(() => {
+  const memoizedGetTvByGenre = useCallback(() => {
     const { page = 1 } = query;
-    return getPopularTv(page);
-  }, [query]);
+    return getTvByGenre(genre.id, page);
+  }, [query, genre]);
 
   const { execute, status, value, error } = useAsync(
-    memoizedGetPopularTv,
+    memoizedGetTvByGenre,
     isReady
   );
 
   const handlePageChange = (newPage) => {
-    push({ pathname, query: { page: newPage } });
+    push({ pathname: asPath.split("?")[0], query: { page: newPage } });
   };
 
   return (
     <BrowseLayout
       title={
         <Heading as="h2" size="lg">
-          Popular Tv Shows
+          {genre.value} TV Shows
         </Heading>
       }
       categoryBar={<TvCategoryBar />}
@@ -64,4 +66,27 @@ export default function PopularTvPage() {
       )}
     </BrowseLayout>
   );
+}
+
+export async function getStaticProps(context) {
+  const genre_key = Object.keys(TV_GENRES).find((genre_key) => {
+    return TV_GENRES[genre_key].slug === context.params.slug;
+  });
+
+  return {
+    props: {
+      genre: TV_GENRES[genre_key],
+    },
+  };
+}
+
+export function getStaticPaths() {
+  const paths = Object.keys(TV_GENRES).map((genre_key) => ({
+    params: { slug: TV_GENRES[genre_key].slug },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
 }
