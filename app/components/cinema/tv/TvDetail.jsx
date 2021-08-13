@@ -1,17 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Center,
-  Flex,
-  Heading,
-  VStack,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Heading, Stack, Text } from "@chakra-ui/react";
 
-import { formatRuntime } from "@/utils/movies";
-import Cast from "@/components/cinema/Cast";
+import TvCast from "@/components/cinema/tv/TvCast";
 
 const MovieDetail = ({
   title,
@@ -19,8 +10,8 @@ const MovieDetail = ({
   overview,
   vote_average,
   genres,
-  release_date,
-  runtime,
+  first_air_date,
+  episode_run_time,
   credits,
 }) => {
   return (
@@ -30,9 +21,7 @@ const MovieDetail = ({
           {title}
         </Heading>
         <Text textAlign="center" color="gray.500">
-          {`${release_date.split("-")[0]}  •  ${formatRuntime(
-            runtime
-          )}  •  Rated ${vote_average} / 10`}
+          {`${first_air_date}  •  ${episode_run_time?.[0]} min/ep  •  Rated ${vote_average} / 10`}
         </Text>
         <Text textAlign="center" color="gray.500">
           {genres.map(({ name }) => name).join(", ")}
@@ -52,7 +41,7 @@ const MovieDetail = ({
           <Heading as="h6" size="md">
             Cast
           </Heading>
-          <Cast cast={credits.cast.slice(0, 10)} />
+          <TvCast cast={credits.cast.slice(0, 10)} />
         </Stack>
       </Stack>
     </Box>
@@ -60,13 +49,13 @@ const MovieDetail = ({
 };
 
 MovieDetail.propTypes = {
-  title: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   tagline: PropTypes.string,
   overview: PropTypes.string,
   genres: PropTypes.array,
-  release_date: PropTypes.string.isRequired,
+  first_air_date: PropTypes.string,
   vote_average: PropTypes.number.isRequired,
-  runtime: PropTypes.number.isRequired,
+  episode_run_time: PropTypes.array.isRequired,
 };
 
 export default MovieDetail;

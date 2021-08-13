@@ -19,15 +19,6 @@ const Header = () => {
           Cinematric
         </Heading>
       </NextLink>
-      <Stack direction="row" alignSelf="flex-end">
-        <FormLabel htmlFor="browse-movie-tv-toggle" mb="0" mx="0">
-          Movie
-        </FormLabel>
-        <Switch id="browse-movie-tv-toggle" colorScheme="apple" size="md" />
-        <FormLabel htmlFor="browse-movie-tv-toggle" mb="0">
-          TV
-        </FormLabel>
-      </Stack>
     </Flex>
   );
 };

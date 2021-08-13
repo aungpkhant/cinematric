@@ -10,7 +10,7 @@ export default function LandingPage({ children }) {
   return (
     <LandingLayout>
       <Flex direction="column" as="main" flexGrow="1">
-        <Flex direction="column" p={4}>
+        <Flex direction="column" p={[4, 8]}>
           <LandingCards />
           <Stack direction="column" spacing={8}>
             <Heading as="h2" textAlign="center">

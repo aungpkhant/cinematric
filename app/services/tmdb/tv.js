@@ -10,3 +10,9 @@ export const getTvByGenre = (genreId, page) => {
     page,
   });
 };
+
+export const getTvDetail = (tvId) => {
+  return fetchTmdb("GET", `/tv/${tvId}`, {
+    append_to_response: "credits,videos,images",
+  });
+};
