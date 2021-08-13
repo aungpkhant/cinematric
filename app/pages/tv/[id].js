@@ -5,7 +5,7 @@ import SwipeableViews from "react-swipeable-views";
 
 import MovieDetailLayout from "@/layouts/movieDetail";
 import TvDetail from "@/components/cinema/tv/TvDetail";
-import MovieDetailBackdrop from "@/components/cinema/MovieDetailBackdrop";
+import MovieDetailBackdrop from "@/components/cinema/movies/MovieDetailBackdrop";
 import MovieBackdropSkeleton from "@/components/skeletons/MovieBackdropSkeleton";
 import useAsync from "@/hooks/useAsync";
 import { getTvDetail } from "@/services/tmdb/tv";

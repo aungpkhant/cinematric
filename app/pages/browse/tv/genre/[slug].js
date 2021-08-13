@@ -7,10 +7,10 @@ import useAsync from "@/hooks/useAsync";
 import { TV_GENRES } from "@/constants/tmdb";
 import { getTvByGenre } from "@/services/tmdb/tv";
 
-import TvCard from "@/components/cinema/TvCard";
+import TvCard from "@/components/cinema/tv/TvCard";
 import CardSkeleton from "@/components/skeletons/CardSkeleton";
 import Pagination from "@/components/common/Pagination";
-import TvCategoryBar from "@/components/cinema/TvCategoryBar";
+import TvCategoryBar from "@/components/cinema/tv/TvCategoryBar";
 
 export default function BrowseTvGenrePage({ genre }) {
   const { asPath, query, isReady, push } = useRouter();

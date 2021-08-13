@@ -10,11 +10,11 @@ const MovieDetailLayout = ({ backdrop, children }) => {
   return (
     <Flex direction="column">
       {/* Brand & Profile bar */}
-      <Stack p={4}>
+      <Stack p={[4, 8]}>
         <Header />
       </Stack>
       {backdrop}
-      <Flex direction="column" p={4}>
+      <Flex direction="column" p={[4, 8]}>
         {children}
       </Flex>
       <Footer />

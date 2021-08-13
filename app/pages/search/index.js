@@ -6,8 +6,8 @@ import BrowseLayout from "@/layouts/browse";
 import useAsync from "@/hooks/useAsync";
 import { searchTmdb } from "@/services/tmdb/common";
 import CardSkeleton from "@/components/skeletons/CardSkeleton";
-import MovieCard from "@/components/cinema/MovieCard";
-import TvCard from "@/components/cinema/TvCard";
+import MovieCard from "@/components/cinema/movies/MovieCard";
+import TvCard from "@/components/cinema/tv/TvCard";
 
 const filterMoiveAndTvFromResults = (results) => {
   return results.filter(

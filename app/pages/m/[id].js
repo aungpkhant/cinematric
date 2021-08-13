@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import SwipeableViews from "react-swipeable-views";
 
 import MovieDetailLayout from "@/layouts/movieDetail";
-import MovieDetail from "@/components/cinema/MovieDetail";
-import MovieDetailBackdrop from "@/components/cinema/MovieDetailBackdrop";
+import MovieDetail from "@/components/cinema/movies/MovieDetail";
+import MovieDetailBackdrop from "@/components/cinema/movies/MovieDetailBackdrop";
 import MovieBackdropSkeleton from "@/components/skeletons/MovieBackdropSkeleton";
 import useAsync from "@/hooks/useAsync";
 import { getMovieDetail } from "@/services/tmdb/movies";

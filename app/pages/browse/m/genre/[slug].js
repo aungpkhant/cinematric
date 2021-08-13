@@ -7,10 +7,10 @@ import useAsync from "@/hooks/useAsync";
 import { MOVIE_GENRES } from "@/constants/tmdb";
 import { getMoviesByGenre } from "@/services/tmdb/movies";
 
-import MovieCard from "@/components/cinema/MovieCard";
+import MovieCard from "@/components/cinema/movies/MovieCard";
 import CardSkeleton from "@/components/skeletons/CardSkeleton";
 import Pagination from "@/components/common/Pagination";
-import MovieCategoryBar from "@/components/cinema/MovieCategoryBar";
+import MovieCategoryBar from "@/components/cinema/movies/MovieCategoryBar";
 
 export default function BrowseMovieGenrePage({ genre }) {
   const { asPath, query, isReady, push } = useRouter();
