@@ -12,7 +12,6 @@ import {
 
 import { formatRuntime } from "@/utils/movies";
 import Cast from "@/components/cinema/Cast";
-import { mapMovieGenreIdToGenre } from "@/utils/movies";
 
 const MovieDetail = ({
   title,
@@ -39,7 +38,7 @@ const MovieDetail = ({
           {genres.map(({ name }) => name).join(", ")}
         </Text>
       </Stack>
-      <Stack spacing={6} pt={3}>
+      <Stack spacing={6} pt={6}>
         <Text fontWeight="semibold" fontSize="lg" color="gray.500">
           {tagline}
         </Text>
@@ -55,11 +54,6 @@ const MovieDetail = ({
           </Heading>
           <Cast cast={credits.cast.slice(0, 10)} />
         </Stack>
-        {/* <Stack spacing={4}>
-          <Heading as="h6" size="md">
-            Trailers & Teasers
-          </Heading>
-        </Stack> */}
       </Stack>
     </Box>
   );

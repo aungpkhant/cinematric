@@ -4,24 +4,24 @@ import { useRouter } from "next/router";
 import { Heading, Center, Stack } from "@chakra-ui/react";
 
 import useAsync from "@/hooks/useAsync";
-import { MOVIE_GENRES } from "@/constants/tmdb";
-import { getMoviesByGenre } from "@/services/tmdb/movies";
+import { TV_GENRES } from "@/constants/tmdb";
+import { getTvByGenre } from "@/services/tmdb/tv";
 
-import MovieCard from "@/components/cinema/movies/MovieCard";
+import TvCard from "@/components/cinema/tv/TvCard";
 import CardSkeleton from "@/components/skeletons/CardSkeleton";
 import Pagination from "@/components/common/Pagination";
-import MovieCategoryBar from "@/components/cinema/movies/MovieCategoryBar";
+import TvCategoryBar from "@/components/cinema/tv/TvCategoryBar";
 
-export default function BrowseMovieGenrePage({ genre }) {
+export default function BrowseTvGenrePage({ genre }) {
   const { asPath, query, isReady, push } = useRouter();
 
-  const memoizedGetMoviesByGenre = useCallback(() => {
+  const memoizedGetTvByGenre = useCallback(() => {
     const { page = 1 } = query;
-    return getMoviesByGenre(genre.id, page);
+    return getTvByGenre(genre.id, page);
   }, [query, genre]);
 
   const { execute, status, value, error } = useAsync(
-    memoizedGetMoviesByGenre,
+    memoizedGetTvByGenre,
     isReady
   );
 
@@ -33,10 +33,10 @@ export default function BrowseMovieGenrePage({ genre }) {
     <BrowseLayout
       title={
         <Heading as="h2" size="lg">
-          {genre.value} Movies
+          {genre.value} TV Shows
         </Heading>
       }
-      categoryBar={<MovieCategoryBar />}
+      categoryBar={<TvCategoryBar />}
     >
       {status === "success" && (
         <Center mb={6}>
@@ -52,9 +52,7 @@ export default function BrowseMovieGenrePage({ genre }) {
         {status === "pending" &&
           new Array(4).fill().map((_, i) => <CardSkeleton key={i} />)}
         {status === "success" &&
-          value.data.results.map((movie) => (
-            <MovieCard key={movie.id} {...movie} />
-          ))}
+          value.data.results.map((tv) => <TvCard key={tv.id} {...tv} />)}
       </Stack>
       {status === "success" && (
         <Center mt={6}>
@@ -71,20 +69,20 @@ export default function BrowseMovieGenrePage({ genre }) {
 }
 
 export async function getStaticProps(context) {
-  const genre_key = Object.keys(MOVIE_GENRES).find((genre_key) => {
-    return MOVIE_GENRES[genre_key].slug === context.params.slug;
+  const genre_key = Object.keys(TV_GENRES).find((genre_key) => {
+    return TV_GENRES[genre_key].slug === context.params.slug;
   });
 
   return {
     props: {
-      genre: MOVIE_GENRES[genre_key],
+      genre: TV_GENRES[genre_key],
     },
   };
 }
 
 export function getStaticPaths() {
-  const paths = Object.keys(MOVIE_GENRES).map((genre_key) => ({
-    params: { slug: MOVIE_GENRES[genre_key].slug },
+  const paths = Object.keys(TV_GENRES).map((genre_key) => ({
+    params: { slug: TV_GENRES[genre_key].slug },
   }));
 
   return {

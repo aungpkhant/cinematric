@@ -4,22 +4,22 @@ import { useRouter } from "next/router";
 import SwipeableViews from "react-swipeable-views";
 
 import MovieDetailLayout from "@/layouts/movieDetail";
-import MovieDetail from "@/components/cinema/movies/MovieDetail";
+import TvDetail from "@/components/cinema/tv/TvDetail";
 import MovieDetailBackdrop from "@/components/cinema/movies/MovieDetailBackdrop";
 import MovieBackdropSkeleton from "@/components/skeletons/MovieBackdropSkeleton";
 import useAsync from "@/hooks/useAsync";
-import { getMovieDetail } from "@/services/tmdb/movies";
+import { getTvDetail } from "@/services/tmdb/tv";
 
-export default function MovieDetailPage() {
+export default function TVDetailPage() {
   const { pathname, query, isReady, push } = useRouter();
 
-  const memoizedGetMovieDetail = useCallback(() => {
+  const memoizedGetTvDetail = useCallback(() => {
     const { id } = query;
-    return getMovieDetail(id);
+    return getTvDetail(id);
   }, [query]);
 
   const { execute, status, value, error } = useAsync(
-    memoizedGetMovieDetail,
+    memoizedGetTvDetail,
     isReady
   );
 
@@ -50,7 +50,7 @@ export default function MovieDetailPage() {
     >
       {status === "success" && (
         <Box marginTop="-60px" zIndex="10">
-          <MovieDetail {...value.data} />
+          <TvDetail {...value.data} />
         </Box>
       )}
     </MovieDetailLayout>

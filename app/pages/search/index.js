@@ -5,8 +5,9 @@ import { Heading, Stack } from "@chakra-ui/react";
 import BrowseLayout from "@/layouts/browse";
 import useAsync from "@/hooks/useAsync";
 import { searchTmdb } from "@/services/tmdb/common";
-import MovieCardSkeleton from "@/components/skeletons/MovieCardSkeleton";
-import MovieCard from "@/components/cinema/MovieCard";
+import CardSkeleton from "@/components/skeletons/CardSkeleton";
+import MovieCard from "@/components/cinema/movies/MovieCard";
+import TvCard from "@/components/cinema/tv/TvCard";
 
 const filterMoiveAndTvFromResults = (results) => {
   return results.filter(
@@ -17,7 +18,7 @@ const filterMoiveAndTvFromResults = (results) => {
 // Enum mapping & pass props
 const getCard = (data) => ({
   movie: <MovieCard {...data} key={`${data.media_type}-${data.id}`} />,
-  tv: <div key={`${data.media_type}-${data.id}`}>Tv SOMETHING</div>,
+  tv: <TvCard {...data} key={`${data.media_type}-${data.id}`} />,
 });
 
 export default function SearchPage() {
@@ -47,7 +48,7 @@ export default function SearchPage() {
     >
       <Stack direction="column" spacing={4}>
         {status === "pending" &&
-          new Array(4).fill().map((_, i) => <MovieCardSkeleton key={i} />)}
+          new Array(4).fill().map((_, i) => <CardSkeleton key={i} />)}
         {status === "success" &&
           filterMoiveAndTvFromResults(value.data.results).map((result) => {
             return getCard(result)[result.media_type];

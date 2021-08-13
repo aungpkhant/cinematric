@@ -4,7 +4,7 @@ import { Badge, Stack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 
-import { CATEGORIES } from "@/constants/tmdb";
+import { MOVIE_CATEGORIES } from "@/constants/tmdb";
 
 const CategoryBadge = ({ isActive, href, children }) => {
   return (
@@ -31,7 +31,7 @@ CategoryBadge.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const CategoryBar = () => {
+const MovieCategoryBar = () => {
   const router = useRouter();
 
   let currentCategory = null;
@@ -42,7 +42,7 @@ const CategoryBar = () => {
     currentCategory = "popular";
   }
 
-  const currentCategoryObj = CATEGORIES.find(
+  const currentCategoryObj = MOVIE_CATEGORIES.find(
     ({ slug }) => slug === currentCategory
   );
 
@@ -63,7 +63,7 @@ const CategoryBar = () => {
           {currentCategoryObj.value}
         </CategoryBadge>
       }
-      {CATEGORIES.filter(({ slug }) => slug !== currentCategory).map(
+      {MOVIE_CATEGORIES.filter(({ slug }) => slug !== currentCategory).map(
         (category) => (
           <CategoryBadge key={category.slug} href={category.path}>
             {category.value}
@@ -74,4 +74,4 @@ const CategoryBar = () => {
   );
 };
 
-export default CategoryBar;
+export default MovieCategoryBar;

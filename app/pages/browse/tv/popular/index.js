@@ -5,9 +5,10 @@ import router, { useRouter } from "next/router";
 import BrowseLayout from "@/layouts/browse";
 import useAsync from "@/hooks/useAsync";
 import { getPopularTv } from "@/services/tmdb/tv";
-import TvCard from "@/components/cinema/TvCard";
-import MovieCardSkeleton from "@/components/skeletons/MovieCardSkeleton";
+import TvCard from "@/components/cinema/tv/TvCard";
+import CardSkeleton from "@/components/skeletons/CardSkeleton";
 import Pagination from "@/components/common/Pagination";
+import TvCategoryBar from "@/components/cinema/tv/TvCategoryBar";
 
 export default function PopularTvPage() {
   const { pathname, query, isReady, push } = useRouter();
@@ -33,6 +34,7 @@ export default function PopularTvPage() {
           Popular Tv Shows
         </Heading>
       }
+      categoryBar={<TvCategoryBar />}
     >
       {status === "success" && (
         <Center mb={6}>
@@ -46,7 +48,7 @@ export default function PopularTvPage() {
       )}
       <Stack direction="column" spacing={4}>
         {status === "pending" &&
-          new Array(4).fill().map((_, i) => <MovieCardSkeleton key={i} />)}
+          new Array(4).fill().map((_, i) => <CardSkeleton key={i} />)}
         {status === "success" &&
           value.data.results.map((tv) => <TvCard key={tv.id} {...tv} />)}
       </Stack>
