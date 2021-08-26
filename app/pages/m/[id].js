@@ -9,6 +9,8 @@ import MovieDetailBackdrop from "@/components/cinema/movies/MovieDetailBackdrop"
 import MovieBackdropSkeleton from "@/components/skeletons/MovieBackdropSkeleton";
 import useAsync from "@/hooks/useAsync";
 import { getMovieDetail } from "@/services/tmdb/movies";
+import FourOFour from "@/components/common/FourOFour";
+import SomethingWentWrong from "@/components/common/SomethingWentWrong";
 
 export default function MovieDetailPage() {
   const { pathname, query, isReady, push } = useRouter();
@@ -22,6 +24,18 @@ export default function MovieDetailPage() {
     memoizedGetMovieDetail,
     isReady
   );
+
+  if (error) {
+    return (
+      <MovieDetailLayout backdrop={null}>
+        {error?.response?.status === 404 ? (
+          <FourOFour />
+        ) : (
+          <SomethingWentWrong />
+        )}
+      </MovieDetailLayout>
+    );
+  }
 
   const backdrops = value?.data?.images?.backdrops;
 

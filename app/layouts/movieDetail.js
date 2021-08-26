@@ -8,7 +8,7 @@ import Footer from "@/components/common/Footer";
 
 const MovieDetailLayout = ({ backdrop, children }) => {
   return (
-    <Flex direction="column">
+    <Flex direction="column" flexGrow="1">
       {/* Brand & Profile bar */}
       <Stack p={[4, 8]}>
         <Header />
@@ -23,7 +23,7 @@ const MovieDetailLayout = ({ backdrop, children }) => {
 };
 
 MovieDetailLayout.propTypes = {
-  backdrop: PropTypes.node.isRequired,
+  backdrop: PropTypes.node,
   children: PropTypes.node.isRequired,
 };
 

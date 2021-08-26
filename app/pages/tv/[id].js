@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import SwipeableViews from "react-swipeable-views";
 
@@ -9,6 +9,8 @@ import MovieDetailBackdrop from "@/components/cinema/movies/MovieDetailBackdrop"
 import MovieBackdropSkeleton from "@/components/skeletons/MovieBackdropSkeleton";
 import useAsync from "@/hooks/useAsync";
 import { getTvDetail } from "@/services/tmdb/tv";
+import FourOFour from "@/components/common/FourOFour";
+import SomethingWentWrong from "@/components/common/SomethingWentWrong";
 
 export default function TVDetailPage() {
   const { pathname, query, isReady, push } = useRouter();
@@ -22,6 +24,18 @@ export default function TVDetailPage() {
     memoizedGetTvDetail,
     isReady
   );
+
+  if (error) {
+    return (
+      <MovieDetailLayout backdrop={null}>
+        {error?.response?.status === 404 ? (
+          <FourOFour />
+        ) : (
+          <SomethingWentWrong />
+        )}
+      </MovieDetailLayout>
+    );
+  }
 
   const backdrops = value?.data?.images?.backdrops;
 

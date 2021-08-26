@@ -38,7 +38,7 @@ const MovieCard = ({
               }
               htmlWidth={342}
               htmlHeight={513}
-              alt={`Poster - ${title}`}
+              alt=""
             />
           </Box>
           <Flex direction="column" w="full" pl={3} py={3}>

@@ -37,7 +37,7 @@ const TvCard = ({
               }
               htmlWidth={342}
               htmlHeight={513}
-              alt={`Poster - ${name}`}
+              alt=""
             />
           </Box>
           <Flex direction="column" w="full" pl={3} py={3}>
