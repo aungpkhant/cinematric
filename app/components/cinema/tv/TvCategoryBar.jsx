@@ -56,6 +56,9 @@ const TvCategoryBar = () => {
           width: 0,
           height: 0,
         },
+        ":last-child": {
+          paddingRight: "1rem",
+        },
       }}
     >
       {

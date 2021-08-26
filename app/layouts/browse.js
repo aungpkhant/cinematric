@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Flex, Stack, useMediaQuery } from "@chakra-ui/react";
+import { Box, Flex, Stack, useMediaQuery } from "@chakra-ui/react";
 
 import Header from "@/components/common/Header";
 import SearchBar from "@/components/common/SearchBar";
@@ -17,10 +17,12 @@ const BrowseLayout = ({ title, categoryBar, children }) => {
         {/* Brand & Profile bar */}
         <Header />
         <SearchBar />
-        {categoryBar}
-        {title}
       </Stack>
+      <Box ml={[4, 8]} mt={4}>
+        {categoryBar}
+      </Box>
       <Flex direction="column" p={[4, 8]}>
+        {title}
         {children}
       </Flex>
       <Footer />
