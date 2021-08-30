@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from "react";
-import { Heading, Center, Stack } from "@chakra-ui/react";
+import { Heading, Center } from "@chakra-ui/react";
 import router, { useRouter } from "next/router";
 
 import BrowseLayout from "@/layouts/browse";
@@ -9,6 +9,7 @@ import TvCard from "@/components/cinema/tv/TvCard";
 import CardSkeleton from "@/components/skeletons/CardSkeleton";
 import Pagination from "@/components/common/Pagination";
 import TvCategoryBar from "@/components/cinema/tv/TvCategoryBar";
+import CardList from "@/components/cinema/CardList";
 
 export default function PopularTvPage() {
   const { pathname, query, isReady, push } = useRouter();
@@ -46,12 +47,9 @@ export default function PopularTvPage() {
           />
         </Center>
       )}
-      <Stack direction="column" spacing={4}>
-        {status === "pending" &&
-          new Array(4).fill().map((_, i) => <CardSkeleton key={i} />)}
-        {status === "success" &&
-          value.data.results.map((tv) => <TvCard key={tv.id} {...tv} />)}
-      </Stack>
+
+      {status === "pending" && <CardList loading />}
+      {status === "success" && <CardList items={value.data.results} />}
       {status === "success" && (
         <Center mt={6}>
           <Pagination
