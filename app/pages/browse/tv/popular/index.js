@@ -5,8 +5,6 @@ import router, { useRouter } from "next/router";
 import BrowseLayout from "@/layouts/browse";
 import useAsync from "@/hooks/useAsync";
 import { getPopularTv } from "@/services/tmdb/tv";
-import TvCard from "@/components/cinema/tv/TvCard";
-import CardSkeleton from "@/components/skeletons/CardSkeleton";
 import Pagination from "@/components/common/Pagination";
 import TvCategoryBar from "@/components/cinema/tv/TvCategoryBar";
 import CardList from "@/components/cinema/CardList";

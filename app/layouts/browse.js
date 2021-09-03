@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Box, Flex, Stack, Link, Text } from "@chakra-ui/react";
+import NextLink from "next/link";
 
 import Header from "@/components/common/Header";
 import SearchBar from "@/components/common/SearchBar";
 import Footer from "@/components/common/Footer";
+import SideBar from "@/components/common/SideBar";
 
 import theme from "@/styles/theme";
 import { useIsoMediaQuery } from "@/hooks/useMediaQuery";
@@ -23,29 +25,7 @@ const ScreenLayoutWrapper = ({ title, children }) => {
 
   return (
     <Flex direction="row" m={0} flexGrow="1">
-      <Flex
-        w="240px"
-        as="nav"
-        p={8}
-        position="sticky"
-        top="0"
-        alignSelf="flex-start"
-      >
-        <Stack direction="column" spacing={4} color="gray.200">
-          <Link fontSize="2xl" fontWeight="medium">
-            Home
-          </Link>
-          <Link fontSize="2xl" fontWeight="medium">
-            Popular
-          </Link>
-          <Link fontSize="2xl" fontWeight="medium">
-            Upcoming
-          </Link>
-          <Text fontSize="2xl" fontWeight="medium">
-            Genres
-          </Text>
-        </Stack>
-      </Flex>
+      <SideBar />
       <Flex direction="column" p={[4, 8]} flexGrow="1">
         <Box mb={6}>{title}</Box>
         {children}

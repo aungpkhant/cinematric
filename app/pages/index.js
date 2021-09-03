@@ -19,11 +19,11 @@ export default function LandingPage({ children }) {
             </Heading>
             <Flex justifyContent="center">
               <Stack direction="row" spacing={4} w="fit-content">
-                <NextLink href="/browse/m/popular">
-                  <BrandButton>Browse Movies</BrandButton>
+                <NextLink href="/browse/m/popular" passHref>
+                  <BrandButton as="a">Browse Movies</BrandButton>
                 </NextLink>
-                <NextLink href="/browse/tv/popular">
-                  <BrandButton>Browse TV</BrandButton>
+                <NextLink href="/browse/tv/popular" passHref>
+                  <BrandButton as="a">Browse TV</BrandButton>
                 </NextLink>
               </Stack>
             </Flex>
