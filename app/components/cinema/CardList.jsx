@@ -69,7 +69,7 @@ const LoadingCardColumns = ({ numOfColumns }) => {
       {Array(numOfColumns)
         .fill()
         .map((_, colNo) => (
-          <CardColumnWrapper>
+          <CardColumnWrapper key={colNo}>
             {Array(numOfLoadingCardsPerColumn)
               .fill()
               .map((_, rowNo) => {
@@ -78,6 +78,7 @@ const LoadingCardColumns = ({ numOfColumns }) => {
                     w="full"
                     h={skeletonHeights[colNo % skeletonHeights.length][rowNo]}
                     rounded="lg"
+                    key={rowNo}
                   />
                 );
               })}
