@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, Heading, Stack, Text } from "@chakra-ui/react";
 
-import TvCast from "@/components/cinema/tv/TvCast";
-
 const TvDetail = ({
   name,
   tagline,
@@ -12,7 +10,6 @@ const TvDetail = ({
   genres,
   first_air_date,
   episode_run_time,
-  credits,
 }) => {
   return (
     <Box>

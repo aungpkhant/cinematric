@@ -45,9 +45,10 @@ export default function PopularTvPage() {
           />
         </Center>
       )}
-
       {status === "pending" && <CardList loading />}
-      {status === "success" && <CardList items={value.data.results} />}
+      {status === "success" && (
+        <CardList type="tv" items={value.data.results} />
+      )}
       {status === "success" && (
         <Center mt={6}>
           <Pagination

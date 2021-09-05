@@ -68,7 +68,8 @@ const MovieDetailLayout = ({ backdrop, aside, children }) => {
 
 MovieDetailLayout.propTypes = {
   backdrop: PropTypes.node,
-  children: PropTypes.node.isRequired,
+  aside: PropTypes.node,
+  children: PropTypes.node,
 };
 
 export default MovieDetailLayout;

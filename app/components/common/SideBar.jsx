@@ -78,7 +78,11 @@ const SideBar = () => {
             Movies
           </Text>
           <Stack pt={2} spacing={3} w="full">
-            <SubLinkWithIcon href="/" text="Popular" icon={BsBarChartFill} />
+            <SubLinkWithIcon
+              href="/browse/m/popular"
+              text="Popular"
+              icon={BsBarChartFill}
+            />
             <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} />
             <ShowMore text="Show Genres" />
           </Stack>

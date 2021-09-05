@@ -5,7 +5,7 @@ import SwipeableViews from "react-swipeable-views";
 
 import MovieDetailLayout from "@/layouts/movieDetail";
 import TvDetail from "@/components/cinema/tv/TvDetail";
-import TvCast from "@/components/cinema/tv/TvCast";
+import Cast from "@/components/cinema/Cast";
 import MovieDetailBackdrop from "@/components/cinema/movies/MovieDetailBackdrop";
 import MovieBackdropSkeleton from "@/components/skeletons/MovieBackdropSkeleton";
 import useAsync from "@/hooks/useAsync";
@@ -52,7 +52,7 @@ export default function TVDetailPage({ tvData }) {
       aside={<TvDetail {...tvData} />}
     >
       <Box mt={6}>
-        <TvCast cast={tvData?.credits.cast.slice(0, 10)} />
+        <Cast cast={tvData?.credits.cast.slice(0, 10)} />
       </Box>
     </MovieDetailLayout>
   );

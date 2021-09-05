@@ -9,6 +9,7 @@ import { useContainerDimensions } from "@/hooks/useContainerDimensions";
 import { useIsoMediaQuery } from "@/hooks/useMediaQuery";
 
 import theme from "@/styles/theme";
+import MovieCard from "./movies/MovieCard";
 
 const CardColumnWrapper = ({ children }) => {
   return (
@@ -18,17 +19,17 @@ const CardColumnWrapper = ({ children }) => {
   );
 };
 
-const CardColumn = ({ items }) => {
+const CardColumn = ({ CardToRender, items }) => {
   return (
     <CardColumnWrapper>
-      {items.map((tv) => (
-        <TvCard key={tv.id} {...tv} />
+      {items.map((item) => (
+        <CardToRender key={item.id} {...item} />
       ))}
     </CardColumnWrapper>
   );
 };
 
-const CardColumns = ({ items, numOfColumns }) => {
+const CardColumns = ({ items, numOfColumns, CardToRender }) => {
   const deepClonedItems = JSON.parse(JSON.stringify(items));
 
   const minPerColumn = Math.floor(items.length / numOfColumns);
@@ -41,7 +42,11 @@ const CardColumns = ({ items, numOfColumns }) => {
   return (
     <>
       {columns.map((numOfItems, i) => (
-        <CardColumn items={deepClonedItems.splice(0, numOfItems)} key={i} />
+        <CardColumn
+          items={deepClonedItems.splice(0, numOfItems)}
+          key={i}
+          CardToRender={CardToRender}
+        />
       ))}
     </>
   );
@@ -88,11 +93,13 @@ const LoadingCardColumns = ({ numOfColumns }) => {
   );
 };
 
-const CardList = ({ loading, items = [] }) => {
+const CardList = ({ type, loading, items = [] }) => {
   const largerThanMd = useIsoMediaQuery(theme.breakpoints.md);
   const [numOfColumns, setNumOfColumns] = useState(null);
   const masonryBoxRef = useRef(null);
   const masonryBoxDimensions = useContainerDimensions(masonryBoxRef);
+
+  const CardToRender = type === "movie" ? MovieCard : TvCard;
 
   useEffect(() => {
     // https://stackoverflow.com/a/55243400
@@ -123,7 +130,11 @@ const CardList = ({ loading, items = [] }) => {
         gridTemplateColumns="repeat(auto-fill, minmax(220px,1fr))"
         ref={masonryBoxRef}
       >
-        <CardColumns items={items} numOfColumns={numOfColumns} />
+        <CardColumns
+          items={items}
+          numOfColumns={numOfColumns}
+          CardToRender={CardToRender}
+        />
       </Grid>
     );
   }
@@ -140,14 +151,15 @@ const CardList = ({ loading, items = [] }) => {
 
   return (
     <Stack direction="column" spacing={4}>
-      {items.map((tv) => (
-        <TvCard key={tv.id} {...tv} />
+      {items.map((item) => (
+        <CardToRender key={item.id} {...item} />
       ))}
     </Stack>
   );
 };
 
 CardList.propTypes = {
+  type: PropTypes.string,
   loading: PropTypes.bool,
   items: PropTypes.array,
 };
