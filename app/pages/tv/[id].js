@@ -12,61 +12,63 @@ import { getTvDetail } from "@/services/tmdb/tv";
 import FourOFour from "@/components/common/FourOFour";
 import SomethingWentWrong from "@/components/common/SomethingWentWrong";
 
-export default function TVDetailPage() {
-  const { pathname, query, isReady, push } = useRouter();
+export default function TVDetailPage({ tvData }) {
+  // ! Use this instead of NextJs default 404?
+  // if (error) {
+  //   return (
+  //     <MovieDetailLayout backdrop={null}>
+  //       {error?.response?.status === 404 ? (
+  //         <FourOFour />
+  //       ) : (
+  //         <SomethingWentWrong />
+  //       )}
+  //     </MovieDetailLayout>
+  //   );
+  // }
 
-  const memoizedGetTvDetail = useCallback(() => {
-    const { id } = query;
-    return getTvDetail(id);
-  }, [query]);
-
-  const { execute, status, value, error } = useAsync(
-    memoizedGetTvDetail,
-    isReady
-  );
-
-  if (error) {
-    return (
-      <MovieDetailLayout backdrop={null}>
-        {error?.response?.status === 404 ? (
-          <FourOFour />
-        ) : (
-          <SomethingWentWrong />
-        )}
-      </MovieDetailLayout>
-    );
-  }
-
-  const backdrops = value?.data?.images?.backdrops;
+  const backdrops = tvData?.images?.backdrops;
 
   return (
     <MovieDetailLayout
       backdrop={
-        status === "success" ? (
-          <>
-            {backdrops.length > 0 ? (
-              <SwipeableViews enableMouseEvents>
-                {backdrops.map(({ file_path }) => (
-                  <MovieDetailBackdrop
-                    key={file_path}
-                    backdrop_path={file_path}
-                  />
-                ))}
-              </SwipeableViews>
-            ) : (
-              <MovieDetailBackdrop />
-            )}
-          </>
-        ) : (
-          <MovieBackdropSkeleton />
-        )
+        <>
+          {backdrops.length > 0 ? (
+            <SwipeableViews enableMouseEvents>
+              {backdrops.map(({ file_path }) => (
+                <MovieDetailBackdrop
+                  key={file_path}
+                  backdrop_path={file_path}
+                />
+              ))}
+            </SwipeableViews>
+          ) : (
+            <MovieDetailBackdrop />
+          )}
+        </>
       }
     >
-      {status === "success" && (
-        <Box marginTop="-60px" zIndex="10">
-          <TvDetail {...value.data} />
-        </Box>
-      )}
+      <Box marginTop="-60px" zIndex="10">
+        <TvDetail {...tvData} />
+      </Box>
     </MovieDetailLayout>
   );
+}
+
+export async function getStaticProps({ params }) {
+  try {
+    const res = await getTvDetail(params.id);
+    if (res.error || !res.data) {
+      return { notFound: true };
+    }
+    return { props: { tvData: res.data } };
+  } catch (error) {
+    // TODO should return something else if TMDB Api is down?
+    return { notFound: true };
+  }
+}
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  return { paths, fallback: "blocking" };
 }
