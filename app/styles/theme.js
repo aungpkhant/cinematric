@@ -1,5 +1,4 @@
 import { extendTheme } from "@chakra-ui/react";
-import { theme as chakraTheme } from "@chakra-ui/react";
 
 const themeExtension = {
   fonts: {
@@ -31,6 +30,6 @@ const themeExtension = {
 
 const theme = extendTheme(themeExtension);
 
-console.log({ theme });
+console.log({ breakpoints: theme.breakpoints });
 
 export default theme;

@@ -28,8 +28,13 @@ const MovieCard = ({
   return (
     <NextLink href={`/m/${id}`}>
       <a>
-        <Flex direction="row">
-          <Box w="45%" flexShrink="0" borderRadius={8} overflow="hidden">
+        <Flex direction={["row", "row", "column"]}>
+          <Box
+            w={["45%", "45%", "100%"]}
+            flexShrink="0"
+            borderRadius={8}
+            overflow="hidden"
+          >
             <Image
               src={
                 poster_path
@@ -38,16 +43,28 @@ const MovieCard = ({
               }
               htmlWidth={342}
               htmlHeight={513}
-              alt={`Poster - ${title}`}
+              alt=""
             />
           </Box>
-          <Flex direction="column" w="full" pl={3} py={3}>
+          <Flex
+            direction="column"
+            w="full"
+            pl={3}
+            pr={(0, 0, 3)}
+            py={3}
+            bg={["initial", "initial", "elevation.200"]}
+            borderRadius={["0", "0", "0 0 12px 12px"]}
+          >
             <Box flexGrow="1">
-              <Heading as="h3" size="sm" noOfLines={2}>
+              <Heading as="h3" fontSize={["sm", "sm", "xl"]} noOfLines={2}>
                 {title}
               </Heading>
               <Stack mt={3}>
-                <Text fontSize="xs" color="gray.400" noOfLines={2}>
+                <Text
+                  fontSize={["xs", "sm", "md"]}
+                  color="gray.400"
+                  noOfLines={2}
+                >
                   {genre_ids.map(mapMovieGenreIdToGenre).join(", ")}
                 </Text>
               </Stack>
@@ -60,7 +77,7 @@ const MovieCard = ({
                 </Flex>
               ) : null}
             </Box>
-            <Box flexShrink="0">
+            <Box flexShrink="0" display={["initial", "initial", "none"]}>
               <Button
                 isFullWidth
                 size="sm"

@@ -162,6 +162,11 @@ export const TV_GENRES = {
     slug: "mystery",
     value: "Mystery",
   },
+  10749: {
+    id: 10749,
+    slug: "romance",
+    value: "Romance",
+  },
   10751: {
     id: 10751,
     slug: "family",

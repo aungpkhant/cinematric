@@ -5,10 +5,9 @@ import router, { useRouter } from "next/router";
 import BrowseLayout from "@/layouts/browse";
 import useAsync from "@/hooks/useAsync";
 import { getPopularMovies } from "@/services/tmdb/movies";
-import MovieCard from "@/components/cinema/movies/MovieCard";
-import CardSkeleton from "@/components/skeletons/CardSkeleton";
 import Pagination from "@/components/common/Pagination";
 import MovieCategoryBar from "@/components/cinema/movies/MovieCategoryBar";
+import CardList from "@/components/cinema/CardList";
 
 export default function PopularMoviesPage() {
   const { pathname, query, isReady, push } = useRouter();
@@ -47,12 +46,10 @@ export default function PopularMoviesPage() {
         </Center>
       )}
       <Stack direction="column" spacing={4}>
-        {status === "pending" &&
-          new Array(4).fill().map((_, i) => <CardSkeleton key={i} />)}
-        {status === "success" &&
-          value.data.results.map((movie) => (
-            <MovieCard key={movie.id} {...movie} />
-          ))}
+        {status === "pending" && <CardList loading />}
+        {status === "success" && (
+          <CardList type="movie" items={value.data.results} />
+        )}
       </Stack>
       {status === "success" && (
         <Center mt={6}>

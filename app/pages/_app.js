@@ -3,6 +3,11 @@ import { Global, css } from "@emotion/react";
 
 import theme from "@/styles/theme";
 
+// ! Put this style in globals to debug
+// * {
+//   outline: solid 2px hsla(0, 100%, 50%, 0.5);
+// }
+
 const GlobalStyle = ({ children }) => {
   return (
     <>
