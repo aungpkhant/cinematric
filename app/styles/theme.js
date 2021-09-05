@@ -30,6 +30,6 @@ const themeExtension = {
 
 const theme = extendTheme(themeExtension);
 
-console.log({ theme });
+console.log({ breakpoints: theme.breakpoints });
 
 export default theme;

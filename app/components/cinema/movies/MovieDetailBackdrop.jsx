@@ -7,7 +7,7 @@ const MovieDetailBackdrop = ({ backdrop_path }) => {
     <Box
       position="relative"
       w="full"
-      h="400px"
+      h={["400px", "480px", "600px", "calc(100vh - 64px)"]}
       backgroundImage={
         backdrop_path
           ? `url('${TMDB_IMG_BASE_URL}/${TMDB_BACKDROP_SIZES.w780}${backdrop_path}')`
