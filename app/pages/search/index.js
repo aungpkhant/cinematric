@@ -9,6 +9,8 @@ import CardSkeleton from "@/components/skeletons/CardSkeleton";
 import MovieCard from "@/components/cinema/movies/MovieCard";
 import TvCard from "@/components/cinema/tv/TvCard";
 
+// TODO migrate to BrowseLayout.jsx
+
 const filterMoiveAndTvFromResults = (results) => {
   return results.filter(
     ({ media_type }) => media_type === "tv" || media_type === "movie"

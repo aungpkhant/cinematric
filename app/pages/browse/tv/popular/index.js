@@ -1,13 +1,11 @@
-import { useEffect, useCallback } from "react";
-import { Heading, Center } from "@chakra-ui/react";
-import router, { useRouter } from "next/router";
+import { useCallback } from "react";
+import { Heading } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
-import BrowseLayout from "@/layouts/browse";
+import BrowseLayout from "@/layouts/BrowseLayout";
 import useAsync from "@/hooks/useAsync";
 import { getPopularTv } from "@/services/tmdb/tv";
-import Pagination from "@/components/common/Pagination";
 import TvCategoryBar from "@/components/cinema/tv/TvCategoryBar";
-import CardList from "@/components/cinema/CardList";
 
 export default function PopularTvPage() {
   const { pathname, query, isReady, push } = useRouter();
@@ -30,35 +28,13 @@ export default function PopularTvPage() {
     <BrowseLayout
       title={
         <Heading as="h2" size="lg">
-          Popular Tv Shows
+          Popular TV Shows
         </Heading>
       }
       categoryBar={<TvCategoryBar />}
-    >
-      {status === "success" && (
-        <Center mb={6}>
-          <Pagination
-            currentPage={value.data.page}
-            totalPages={value.data.total_pages}
-            handlePrevPageClick={handlePageChange}
-            handleNextPageClick={handlePageChange}
-          />
-        </Center>
-      )}
-      {status === "pending" && <CardList loading />}
-      {status === "success" && (
-        <CardList type="tv" items={value.data.results} />
-      )}
-      {status === "success" && (
-        <Center mt={6}>
-          <Pagination
-            currentPage={value.data.page}
-            totalPages={value.data.total_pages}
-            handlePrevPageClick={handlePageChange}
-            handleNextPageClick={handlePageChange}
-          />
-        </Center>
-      )}
-    </BrowseLayout>
+      status={status}
+      response={value}
+      handlePageChange={handlePageChange}
+    ></BrowseLayout>
   );
 }

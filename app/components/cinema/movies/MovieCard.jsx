@@ -70,8 +70,16 @@ const MovieCard = ({
               </Stack>
               {vote_average ? (
                 <Flex direction="row" mt={3}>
-                  <Icon as={FaStar} mr="2" color="yellow.400"></Icon>
-                  <Text fontSize="xs" fontWeight="semibold">
+                  <Text fontWeight="semibold" fontSize="md" color="gray.400">
+                    <Icon
+                      as={FaStar}
+                      display="inline"
+                      mr="2"
+                      color="yellow.400"
+                      fontSize="md"
+                      position="relative"
+                      top="-2px"
+                    ></Icon>
                     {vote_average}
                   </Text>
                 </Flex>
