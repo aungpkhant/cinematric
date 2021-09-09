@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import BrowseLayout from "@/layouts/browse";
+import BrowseLayout from "@/layouts/BrowseLayout";
 import { useRouter } from "next/router";
 import { Heading, Center, Stack } from "@chakra-ui/react";
 
@@ -7,9 +7,6 @@ import useAsync from "@/hooks/useAsync";
 import { MOVIE_GENRES } from "@/constants/tmdb";
 import { getMoviesByGenre } from "@/services/tmdb/movies";
 
-import MovieCard from "@/components/cinema/movies/MovieCard";
-import CardSkeleton from "@/components/skeletons/CardSkeleton";
-import Pagination from "@/components/common/Pagination";
 import MovieCategoryBar from "@/components/cinema/movies/MovieCategoryBar";
 
 export default function BrowseMovieGenrePage({ genre }) {
@@ -37,36 +34,10 @@ export default function BrowseMovieGenrePage({ genre }) {
         </Heading>
       }
       categoryBar={<MovieCategoryBar />}
-    >
-      {status === "success" && (
-        <Center mb={6}>
-          <Pagination
-            currentPage={value.data.page}
-            totalPages={value.data.total_pages}
-            handlePrevPageClick={handlePageChange}
-            handleNextPageClick={handlePageChange}
-          />
-        </Center>
-      )}
-      <Stack direction="column" spacing={4}>
-        {status === "pending" &&
-          new Array(4).fill().map((_, i) => <CardSkeleton key={i} />)}
-        {status === "success" &&
-          value.data.results.map((movie) => (
-            <MovieCard key={movie.id} {...movie} />
-          ))}
-      </Stack>
-      {status === "success" && (
-        <Center mt={6}>
-          <Pagination
-            currentPage={value.data.page}
-            totalPages={value.data.total_pages}
-            handlePrevPageClick={handlePageChange}
-            handleNextPageClick={handlePageChange}
-          />
-        </Center>
-      )}
-    </BrowseLayout>
+      status={status}
+      response={value}
+      handlePageChange={handlePageChange}
+    ></BrowseLayout>
   );
 }
 

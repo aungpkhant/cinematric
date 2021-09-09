@@ -1,9 +1,11 @@
 import fetchTmdb from "@/lib/fetchTmdb";
 
-// https://api.themoviedb.org/3/movie/popular?api_key=a07dd8102d4438b1abd37944d568cc86&language=en-US&page=1
+import { appendMediaTypeMovie } from "@/transforms/api";
 
 export const getPopularMovies = (page) => {
-  return fetchTmdb("GET", "/movie/popular", { page });
+  return fetchTmdb("GET", "/movie/popular", { page }).then(
+    appendMediaTypeMovie
+  );
 };
 
 export const getMovieDetail = (movieId) => {
@@ -16,5 +18,5 @@ export const getMoviesByGenre = (genreId, page) => {
   return fetchTmdb("GET", `/discover/movie`, {
     with_genres: genreId,
     page,
-  });
+  }).then(appendMediaTypeMovie);
 };

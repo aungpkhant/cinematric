@@ -19,17 +19,18 @@ const CardColumnWrapper = ({ children }) => {
   );
 };
 
-const CardColumn = ({ CardToRender, items }) => {
+const CardColumn = ({ items }) => {
   return (
     <CardColumnWrapper>
-      {items.map((item) => (
-        <CardToRender key={item.id} {...item} />
-      ))}
+      {items.map((item) => {
+        const CardToRender = item.media_type === "movie" ? MovieCard : TvCard;
+        return <CardToRender key={item.id} {...item} />;
+      })}
     </CardColumnWrapper>
   );
 };
 
-const CardColumns = ({ items, numOfColumns, CardToRender }) => {
+const CardColumns = ({ items, numOfColumns }) => {
   const deepClonedItems = JSON.parse(JSON.stringify(items));
 
   const minPerColumn = Math.floor(items.length / numOfColumns);
@@ -42,11 +43,7 @@ const CardColumns = ({ items, numOfColumns, CardToRender }) => {
   return (
     <>
       {columns.map((numOfItems, i) => (
-        <CardColumn
-          items={deepClonedItems.splice(0, numOfItems)}
-          key={i}
-          CardToRender={CardToRender}
-        />
+        <CardColumn items={deepClonedItems.splice(0, numOfItems)} key={i} />
       ))}
     </>
   );
@@ -99,8 +96,6 @@ const CardList = ({ type, loading, items = [] }) => {
   const masonryBoxRef = useRef(null);
   const masonryBoxDimensions = useContainerDimensions(masonryBoxRef);
 
-  const CardToRender = type === "movie" ? MovieCard : TvCard;
-
   useEffect(() => {
     // https://stackoverflow.com/a/55243400
     const minColWidth = 220;
@@ -130,11 +125,7 @@ const CardList = ({ type, loading, items = [] }) => {
         gridTemplateColumns="repeat(auto-fill, minmax(220px,1fr))"
         ref={masonryBoxRef}
       >
-        <CardColumns
-          items={items}
-          numOfColumns={numOfColumns}
-          CardToRender={CardToRender}
-        />
+        <CardColumns items={items} numOfColumns={numOfColumns} />
       </Grid>
     );
   }
@@ -151,9 +142,10 @@ const CardList = ({ type, loading, items = [] }) => {
 
   return (
     <Stack direction="column" spacing={4}>
-      {items.map((item) => (
-        <CardToRender key={item.id} {...item} />
-      ))}
+      {items.map((item) => {
+        const CardToRender = item.media_type === "movie" ? MovieCard : TvCard;
+        return <CardToRender key={item.id} {...item} />;
+      })}
     </Stack>
   );
 };

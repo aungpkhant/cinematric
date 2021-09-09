@@ -8,6 +8,7 @@ import {
   Stack,
   Button,
   Icon,
+  Badge,
 } from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
 import NextLink from "next/link";
@@ -68,11 +69,30 @@ const TvCard = ({
                 </Text>
               </Stack>
               {vote_average ? (
-                <Flex direction="row" mt={3}>
-                  <Icon as={FaStar} mr="2" color="yellow.400"></Icon>
-                  <Text fontSize="xs" fontWeight="semibold">
+                <Flex direction="row" mt={3} w="100%">
+                  <Text fontWeight="semibold" fontSize="md" color="gray.400">
+                    <Icon
+                      as={FaStar}
+                      display="inline"
+                      mr="2"
+                      color="yellow.400"
+                      fontSize="md"
+                      position="relative"
+                      top="-2px"
+                    ></Icon>
                     {vote_average}
                   </Text>
+                  <Badge
+                    ml="auto"
+                    fontSize="inherit"
+                    bg="inherit"
+                    variant="outline"
+                    fontSize="md"
+                    colorScheme="gray"
+                    px={1.5}
+                  >
+                    TV
+                  </Badge>
                 </Flex>
               ) : null}
             </Box>
