@@ -9,15 +9,25 @@ import { FaChevronDown } from "react-icons/fa";
 const SubLinkWithIcon = ({ icon, href, text }) => {
   return (
     <NextLink href={href} passHref>
-      <Link>
-        <Flex alignItems="center">
+      <Link _hover={{ textDecoration: "none" }}>
+        <Flex
+          alignItems="center"
+          _hover={{
+            "& .sidebar__icon-container__hover": {
+              color: "gray.700",
+              bg: "gray.100",
+            },
+          }}
+        >
           <Box
             as="span"
+            className="sidebar__icon-container__hover"
             display="flex"
             alignItems="center"
             bg={"gray.700"}
             p={1.5}
             borderRadius="md"
+            transition="background-color 0.25s ease"
           >
             <Icon as={icon} w={5} h={5} />
           </Box>
@@ -36,17 +46,22 @@ const ShowMore = ({ handleShowMoreClick, text }) => {
       alignItems="center"
       role="button"
       _hover={{
-        "& span:first-child": { color: "gray.700", bg: "gray.100" },
+        "& .sidebar__icon-container__hover": {
+          color: "gray.700",
+          bg: "gray.100",
+        },
       }}
     >
       <Box
         as="span"
+        className="sidebar__icon-container__hover"
         display="flex"
         alignItems="center"
         bg={"gray.700"}
         p={1.5}
         borderRadius="md"
         color="gray.500"
+        transition="background-color 0.25s ease"
       >
         <Icon as={FaChevronDown} w={5} h={5} />
       </Box>
