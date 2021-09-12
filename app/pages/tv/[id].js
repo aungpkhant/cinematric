@@ -34,7 +34,20 @@ export default function TVDetailPage({ tvData }) {
   return (
     <MovieDetailLayout
       backdrop={
-        <Box w="full">
+        <Box
+          w="full"
+          position="relative"
+          _after={{
+            content: `""`,
+            position: "absolute",
+            bottom: "-4px",
+            left: 0,
+            right: 0,
+            height: "60px",
+            backgroundImage:
+              "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 40%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0.65) 80%, rgba(0,0,0,0) 100%);",
+          }}
+        >
           {backdrops.length > 0 ? (
             <SwipeableViews enableMouseEvents>
               {backdrops.map(({ file_path }) => (

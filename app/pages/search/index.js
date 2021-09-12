@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Heading, Stack } from "@chakra-ui/react";
+import { Box, Heading, Stack } from "@chakra-ui/react";
 
-import BrowseLayout from "@/layouts/browse";
+import BrowseLayout from "@/layouts/BrowseLayout";
 import useAsync from "@/hooks/useAsync";
 import { searchTmdb } from "@/services/tmdb/common";
 import CardSkeleton from "@/components/skeletons/CardSkeleton";
@@ -10,12 +10,6 @@ import MovieCard from "@/components/cinema/movies/MovieCard";
 import TvCard from "@/components/cinema/tv/TvCard";
 
 // TODO migrate to BrowseLayout.jsx
-
-const filterMoiveAndTvFromResults = (results) => {
-  return results.filter(
-    ({ media_type }) => media_type === "tv" || media_type === "movie"
-  );
-};
 
 // Enum mapping & pass props
 const getCard = (data) => ({
@@ -44,18 +38,18 @@ export default function SearchPage() {
     <BrowseLayout
       title={
         <Heading as="h2" size="lg">
-          {query.q ? `Results for ${query.q}` : ``}
+          Results for -{" "}
+          {query.q ? (
+            <Box as="span" fontStyle="italic">
+              {query.q}
+            </Box>
+          ) : (
+            ``
+          )}
         </Heading>
       }
-    >
-      <Stack direction="column" spacing={4}>
-        {status === "pending" &&
-          new Array(4).fill().map((_, i) => <CardSkeleton key={i} />)}
-        {status === "success" &&
-          filterMoiveAndTvFromResults(value.data.results).map((result) => {
-            return getCard(result)[result.media_type];
-          })}
-      </Stack>
-    </BrowseLayout>
+      status={status}
+      response={value}
+    ></BrowseLayout>
   );
 }

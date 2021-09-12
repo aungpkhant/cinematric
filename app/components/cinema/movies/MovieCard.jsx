@@ -1,5 +1,4 @@
 import React from "react";
-import { Skeleton } from "@chakra-ui/skeleton";
 import {
   Box,
   Heading,
@@ -12,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
 import NextLink from "next/link";
+import { format, parseISO } from "date-fns";
 
 import { TMDB_IMG_BASE_URL, TMDB_POSTER_SIZES } from "@/constants/tmdb";
 import { mapMovieGenreIdToGenre } from "@/utils/movies";
@@ -24,6 +24,7 @@ const MovieCard = ({
   overview,
   vote_average,
   poster_path,
+  release_date,
 }) => {
   return (
     <NextLink href={`/m/${id}`}>
@@ -36,6 +37,11 @@ const MovieCard = ({
             overflow="hidden"
           >
             <Image
+              srcSet={
+                poster_path
+                  ? `${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w342}${poster_path}, ${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w500}${poster_path} 1.5x, ${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w780}${poster_path} 2x`
+                  : Poster404.src
+              }
               src={
                 poster_path
                   ? `${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w342}${poster_path}`
@@ -55,36 +61,37 @@ const MovieCard = ({
             bg={["initial", "initial", "elevation.200"]}
             borderRadius={["0", "0", "0 0 12px 12px"]}
           >
-            <Box flexGrow="1">
-              <Heading as="h3" fontSize={["sm", "sm", "xl"]} noOfLines={2}>
+            <Flex direction="column" flexGrow="1">
+              <Heading as="h3" fontSize={["md", "md", "xl"]} noOfLines={2}>
                 {title}
               </Heading>
               <Stack mt={3}>
-                <Text
-                  fontSize={["xs", "sm", "md"]}
-                  color="gray.400"
-                  noOfLines={2}
-                >
+                <Text fontSize={["sm", "md"]} color="gray.400" noOfLines={2}>
                   {genre_ids.map(mapMovieGenreIdToGenre).join(", ")}
                 </Text>
               </Stack>
-              {vote_average ? (
-                <Flex direction="row" mt={3}>
-                  <Text fontWeight="semibold" fontSize="md" color="gray.400">
-                    <Icon
-                      as={FaStar}
-                      display="inline"
-                      mr="2"
-                      color="yellow.400"
-                      fontSize="md"
-                      position="relative"
-                      top="-2px"
-                    ></Icon>
-                    {vote_average}
+              {release_date ? (
+                <Box my={3}>
+                  <Text color="gray.400" fontSize={["sm", "md"]}>
+                    {format(parseISO(release_date), "PP")}
                   </Text>
-                </Flex>
+                </Box>
               ) : null}
-            </Box>
+              <Flex direction="row" mt={3} marginTop="auto" pb={[4, 4, 0]}>
+                <Text fontWeight="semibold" fontSize="md" color="gray.400">
+                  <Icon
+                    as={FaStar}
+                    display="inline"
+                    mr="2"
+                    color="yellow.400"
+                    fontSize="md"
+                    position="relative"
+                    top="-2px"
+                  ></Icon>
+                  {vote_average ? vote_average : "-"}
+                </Text>
+              </Flex>
+            </Flex>
             <Box flexShrink="0" display={["initial", "initial", "none"]}>
               <Button
                 isFullWidth
