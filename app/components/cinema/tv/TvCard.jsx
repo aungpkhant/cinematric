@@ -9,10 +9,12 @@ import {
   Button,
   Icon,
   Badge,
+  Tooltip,
 } from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
+import { FaInfoCircle } from "react-icons/fa";
 import NextLink from "next/link";
-import { parse, format } from "date-fns";
+import { parseISO, format } from "date-fns";
 
 import { TMDB_IMG_BASE_URL, TMDB_POSTER_SIZES } from "@/constants/tmdb";
 import { mapTvGenreIdToGenre } from "@/utils/tv";
@@ -38,6 +40,11 @@ const TvCard = ({
             overflow="hidden"
           >
             <Image
+              srcSet={
+                poster_path
+                  ? `${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w342}${poster_path}, ${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w500}${poster_path} 1.5x, ${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w780}${poster_path} 2x`
+                  : Poster404.src
+              }
               src={
                 poster_path
                   ? `${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w342}${poster_path}`
@@ -69,10 +76,20 @@ const TvCard = ({
               {first_air_date ? (
                 <Box my={3}>
                   <Text color="gray.400" fontSize={["sm", "md"]}>
-                    {format(
-                      parse(first_air_date, "yyyy-mm-dd", new Date()),
-                      "MMM yyyy"
-                    )}
+                    <Tooltip label="Date when the show first aired">
+                      <span>
+                        <Icon
+                          as={FaInfoCircle}
+                          display="inline"
+                          mr="2"
+                          color="gray.400"
+                          fontSize="md"
+                          position="relative"
+                          top="-1px"
+                        ></Icon>
+                      </span>
+                    </Tooltip>
+                    {format(parseISO(first_air_date), "PP")}
                   </Text>
                 </Box>
               ) : null}

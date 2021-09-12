@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
 import NextLink from "next/link";
-import { format, parse } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 import { TMDB_IMG_BASE_URL, TMDB_POSTER_SIZES } from "@/constants/tmdb";
 import { mapMovieGenreIdToGenre } from "@/utils/movies";
@@ -37,6 +37,11 @@ const MovieCard = ({
             overflow="hidden"
           >
             <Image
+              srcSet={
+                poster_path
+                  ? `${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w342}${poster_path}, ${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w500}${poster_path} 1.5x, ${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w780}${poster_path} 2x`
+                  : Poster404.src
+              }
               src={
                 poster_path
                   ? `${TMDB_IMG_BASE_URL}/${TMDB_POSTER_SIZES.w342}${poster_path}`
@@ -68,10 +73,7 @@ const MovieCard = ({
               {release_date ? (
                 <Box my={3}>
                   <Text color="gray.400" fontSize={["sm", "md"]}>
-                    {format(
-                      parse(release_date, "yyyy-mm-dd", new Date()),
-                      "MMM yyyy"
-                    )}
+                    {format(parseISO(release_date), "PP")}
                   </Text>
                 </Box>
               ) : null}
