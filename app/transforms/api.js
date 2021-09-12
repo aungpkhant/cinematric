@@ -20,3 +20,12 @@ export const appendMediaTypeMovie = (res) => {
 //   }
 //   return res;
 // };
+
+export const transformFilterMoiveAndTvFromResults = (res) => {
+  if (res?.data?.results) {
+    res.data.results = res.data.results.filter(
+      ({ media_type }) => media_type === "tv" || media_type === "movie"
+    );
+    return res;
+  }
+};
