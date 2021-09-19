@@ -1,19 +1,12 @@
-import { useEffect, useCallback } from "react";
 import { Box, Center } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import SwipeableViews from "react-swipeable-views";
 
 import MovieDetailLayout from "@/layouts/movieDetail";
 import TvDetail from "@/components/cinema/tv/TvDetail";
 import Cast from "@/components/cinema/Cast";
-import MovieDetailBackdrop from "@/components/cinema/movies/MovieDetailBackdrop";
-import MovieBackdropSkeleton from "@/components/skeletons/MovieBackdropSkeleton";
-import useAsync from "@/hooks/useAsync";
+import CinemaSwipableBackdrop from "@/components/cinema/CinemaSwipableBackdrop";
 import { getTvDetail } from "@/services/tmdb/tv";
 import FourOFour from "@/components/common/FourOFour";
 import SomethingWentWrong from "@/components/common/SomethingWentWrong";
-
-import { useIsoMediaQuery } from "@/hooks/useMediaQuery";
 
 export default function TVDetailPage({ tvData }) {
   // ! Use this instead of NextJs default 404?
@@ -48,18 +41,7 @@ export default function TVDetailPage({ tvData }) {
               "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 40%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0.65) 80%, rgba(0,0,0,0) 100%);",
           }}
         >
-          {backdrops.length > 0 ? (
-            <SwipeableViews enableMouseEvents>
-              {backdrops.map(({ file_path }) => (
-                <MovieDetailBackdrop
-                  key={file_path}
-                  backdrop_path={file_path}
-                />
-              ))}
-            </SwipeableViews>
-          ) : (
-            <MovieDetailBackdrop />
-          )}
+          <CinemaSwipableBackdrop backdrops={backdrops.slice(0, 10)} />
         </Box>
       }
       aside={<TvDetail {...tvData} />}

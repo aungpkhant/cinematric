@@ -8,7 +8,7 @@ import { getPopularMovies } from "@/services/tmdb/movies";
 import MovieCategoryBar from "@/components/cinema/movies/MovieCategoryBar";
 
 export default function PopularMoviesPage() {
-  const { query, isReady, push } = useRouter();
+  const { pathname, query, isReady, push } = useRouter();
 
   const memoizedGetPopularMovies = useCallback(() => {
     const { page = 1 } = query;

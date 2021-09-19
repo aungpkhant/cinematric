@@ -1,6 +1,4 @@
-import { useEffect, useCallback } from "react";
 import { Box } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import SwipeableViews from "react-swipeable-views";
 
 import Cast from "@/components/cinema/Cast";
@@ -10,6 +8,7 @@ import MovieDetailBackdrop from "@/components/cinema/movies/MovieDetailBackdrop"
 import { getMovieDetail } from "@/services/tmdb/movies";
 import FourOFour from "@/components/common/FourOFour";
 import SomethingWentWrong from "@/components/common/SomethingWentWrong";
+import CinemaSwipableBackdrop from "@/components/cinema/CinemaSwipableBackdrop";
 
 export default function MovieDetailPage({ movieData }) {
   const backdrops = movieData?.images?.backdrops;
@@ -31,18 +30,7 @@ export default function MovieDetailPage({ movieData }) {
               "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 40%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0.65) 80%, rgba(0,0,0,0) 100%);",
           }}
         >
-          {backdrops.length > 0 ? (
-            <SwipeableViews enableMouseEvents>
-              {backdrops.map(({ file_path }) => (
-                <MovieDetailBackdrop
-                  key={file_path}
-                  backdrop_path={file_path}
-                />
-              ))}
-            </SwipeableViews>
-          ) : (
-            <MovieDetailBackdrop />
-          )}
+          <CinemaSwipableBackdrop backdrops={backdrops.slice(0, 10)} />
         </Box>
       }
       aside={<MovieDetail {...movieData} />}
