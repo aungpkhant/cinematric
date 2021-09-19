@@ -15,6 +15,7 @@ const SwipablePagination = ({ numOfDots, currentIndex, handleClickDot }) => {
         .map((_, i) => (
           <Box
             as="button"
+            key={i}
             bg={
               i === currentIndex
                 ? "rgba(229,26,26, 0.8)"

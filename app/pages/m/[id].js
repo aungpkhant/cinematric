@@ -30,7 +30,7 @@ export default function MovieDetailPage({ movieData }) {
               "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 40%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0.65) 80%, rgba(0,0,0,0) 100%);",
           }}
         >
-          <CinemaSwipableBackdrop backdrops={backdrops} />
+          <CinemaSwipableBackdrop backdrops={backdrops.slice(0, 10)} />
         </Box>
       }
       aside={<MovieDetail {...movieData} />}
