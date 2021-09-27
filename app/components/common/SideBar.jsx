@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import NextLink from "next/link";
 import { Divider, Box, Flex, Stack, Link, Text, Icon } from "@chakra-ui/react";
 
 import { BsBarChartFill } from "react-icons/bs";
-import { HiFire } from "react-icons/hi";
-import { FaChevronDown } from "react-icons/fa";
+import { HiFire, HiTag } from "react-icons/hi";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
-const SubLinkWithIcon = ({ icon, href, text }) => {
+import { MOVIE_GENRES, TV_GENRES } from "@/constants/tmdb";
+
+const SubLinkWithIcon = ({ icon, href, text, ...props }) => {
   return (
     <NextLink href={href} passHref>
-      <Link _hover={{ textDecoration: "none" }}>
+      <Link {...props} _hover={{ textDecoration: "none" }}>
         <Flex
           alignItems="center"
+          w="full"
           _hover={{
             "& .sidebar__icon-container__hover": {
               color: "gray.700",
@@ -40,7 +43,7 @@ const SubLinkWithIcon = ({ icon, href, text }) => {
   );
 };
 
-const ShowMore = ({ handleShowMoreClick, text }) => {
+const ShowHideButton = ({ shouldShowMore, handleShowHideClick, text }) => {
   return (
     <Flex
       alignItems="center"
@@ -51,6 +54,7 @@ const ShowMore = ({ handleShowMoreClick, text }) => {
           bg: "gray.100",
         },
       }}
+      onClick={handleShowHideClick}
     >
       <Box
         as="span"
@@ -63,7 +67,7 @@ const ShowMore = ({ handleShowMoreClick, text }) => {
         color="gray.500"
         transition="background-color 0.25s ease"
       >
-        <Icon as={FaChevronDown} w={5} h={5} />
+        <Icon as={shouldShowMore ? FaChevronUp : FaChevronDown} w={5} h={5} />
       </Box>
       <Box as="span" fontSize="lg" ml="2" color="gray.500">
         {text}
@@ -72,14 +76,57 @@ const ShowMore = ({ handleShowMoreClick, text }) => {
   );
 };
 
+const MovieGenreButtons = ({ shouldDisplay }) => {
+  return (
+    <>
+      <Divider
+        borderColor="gray.500"
+        display={shouldDisplay ? "block" : "none"}
+      />
+      {Object.values(MOVIE_GENRES).map(({ id, slug, value }) => (
+        <SubLinkWithIcon
+          key={id}
+          href={`/browse/m/genre/${slug}`}
+          text={value}
+          icon={HiTag}
+          display={shouldDisplay ? "block" : "none"}
+        />
+      ))}
+    </>
+  );
+};
+
+const TvGenreButtons = ({ shouldDisplay }) => {
+  return (
+    <>
+      <Divider
+        borderColor="gray.500"
+        display={shouldDisplay ? "block" : "none"}
+      />
+      {Object.values(TV_GENRES).map(({ id, slug, value }) => (
+        <SubLinkWithIcon
+          key={id}
+          href={`/browse/tv/genre/${slug}`}
+          text={value}
+          icon={HiTag}
+          display={shouldDisplay ? "block" : "none"}
+        />
+      ))}
+    </>
+  );
+};
+
 const SideBar = () => {
+  const [shouldShowMovieGenres, setShowMovieGenres] = useState(false);
+  const [shouldShowTvGenres, setShowTvGenres] = useState(false);
+
   return (
     <Flex
+      minW="240px"
       w="240px"
       as="nav"
       p={8}
       position="sticky"
-      top="0"
       alignSelf="flex-start"
     >
       <Stack direction="column" spacing={4} color="gray.100" w="full">
@@ -99,7 +146,14 @@ const SideBar = () => {
               icon={BsBarChartFill}
             />
             <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} />
-            <ShowMore text="Show Genres" />
+            <MovieGenreButtons shouldDisplay={shouldShowMovieGenres} />
+            <ShowHideButton
+              text={shouldShowMovieGenres ? "Hide" : "Show Genres"}
+              shouldShowMore={shouldShowMovieGenres}
+              handleShowHideClick={(_) => {
+                setShowMovieGenres(!shouldShowMovieGenres);
+              }}
+            />
           </Stack>
         </Box>
         <Divider borderColor="gray.500" />
@@ -114,7 +168,14 @@ const SideBar = () => {
               icon={BsBarChartFill}
             />
             <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} />
-            <ShowMore text="Show Genres" />
+            <TvGenreButtons shouldDisplay={shouldShowTvGenres} />
+            <ShowHideButton
+              text={shouldShowTvGenres ? "Hide" : "Show Genres"}
+              shouldShowMore={shouldShowTvGenres}
+              handleShowHideClick={(_) => {
+                setShowTvGenres(!shouldShowTvGenres);
+              }}
+            />
           </Stack>
         </Box>
       </Stack>
