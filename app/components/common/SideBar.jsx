@@ -7,6 +7,7 @@ import { HiFire, HiTag } from "react-icons/hi";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 import { MOVIE_GENRES, TV_GENRES } from "@/constants/tmdb";
+import { useAppUiState } from "@/hooks/useAppUiState";
 
 const SubLinkWithIcon = ({ icon, href, text, ...props }) => {
   return (
@@ -117,8 +118,11 @@ const TvGenreButtons = ({ shouldDisplay }) => {
 };
 
 const SideBar = () => {
-  const [shouldShowMovieGenres, setShowMovieGenres] = useState(false);
-  const [shouldShowTvGenres, setShowTvGenres] = useState(false);
+  const {
+    appUiState,
+    toggleSidebarMovieGenresExpansion,
+    toggleSidebarTvGenresExpansion,
+  } = useAppUiState();
 
   return (
     <Flex
@@ -146,13 +150,15 @@ const SideBar = () => {
               icon={BsBarChartFill}
             />
             <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} />
-            <MovieGenreButtons shouldDisplay={shouldShowMovieGenres} />
+            <MovieGenreButtons
+              shouldDisplay={appUiState.sidebarMovieGenresExpanded}
+            />
             <ShowHideButton
-              text={shouldShowMovieGenres ? "Hide" : "Show Genres"}
-              shouldShowMore={shouldShowMovieGenres}
-              handleShowHideClick={(_) => {
-                setShowMovieGenres(!shouldShowMovieGenres);
-              }}
+              text={
+                appUiState.sidebarMovieGenresExpanded ? "Hide" : "Show Genres"
+              }
+              shouldShowMore={appUiState.sidebarMovieGenresExpanded}
+              handleShowHideClick={toggleSidebarMovieGenresExpansion}
             />
           </Stack>
         </Box>
@@ -168,13 +174,13 @@ const SideBar = () => {
               icon={BsBarChartFill}
             />
             <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} />
-            <TvGenreButtons shouldDisplay={shouldShowTvGenres} />
+            <TvGenreButtons
+              shouldDisplay={appUiState.sidebarTvGenresExpanded}
+            />
             <ShowHideButton
-              text={shouldShowTvGenres ? "Hide" : "Show Genres"}
-              shouldShowMore={shouldShowTvGenres}
-              handleShowHideClick={(_) => {
-                setShowTvGenres(!shouldShowTvGenres);
-              }}
+              text={appUiState.sidebarTvGenresExpanded ? "Hide" : "Show Genres"}
+              shouldShowMore={appUiState.sidebarTvGenresExpanded}
+              handleShowHideClick={toggleSidebarTvGenresExpansion}
             />
           </Stack>
         </Box>
