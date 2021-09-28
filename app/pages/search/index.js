@@ -9,14 +9,6 @@ import CardSkeleton from "@/components/skeletons/CardSkeleton";
 import MovieCard from "@/components/cinema/movies/MovieCard";
 import TvCard from "@/components/cinema/tv/TvCard";
 
-// TODO migrate to BrowseLayout.jsx
-
-// Enum mapping & pass props
-const getCard = (data) => ({
-  movie: <MovieCard {...data} key={`${data.media_type}-${data.id}`} />,
-  tv: <TvCard {...data} key={`${data.media_type}-${data.id}`} />,
-});
-
 export default function SearchPage() {
   const { pathname, query } = useRouter();
 
@@ -50,6 +42,7 @@ export default function SearchPage() {
       }
       status={status}
       response={value}
+      withPaginate={false}
     ></BrowseLayout>
   );
 }

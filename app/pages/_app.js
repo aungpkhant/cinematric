@@ -2,6 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
 
 import theme from "@/styles/theme";
+import { AppUiStateProvider, useAppUiState } from "@/hooks/useAppUiState";
 
 // ! Put this style in globals to debug
 // * {
@@ -33,7 +34,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider resetCSS theme={theme}>
       <GlobalStyle>
-        <Component {...pageProps} />
+        <AppUiStateProvider>
+          <Component {...pageProps} />
+        </AppUiStateProvider>
       </GlobalStyle>
     </ChakraProvider>
   );

@@ -1,10 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Box, Flex, Stack, Link, Text } from "@chakra-ui/react";
-import NextLink from "next/link";
 
 import Header from "@/components/common/Header";
-import SearchBar from "@/components/common/SearchBar";
 import Footer from "@/components/common/Footer";
 import SideBar from "@/components/common/SideBar";
 
@@ -42,7 +40,6 @@ const BrowseLayout = ({ title, categoryBar, children }) => {
       <Stack direction="column" mb={2} spacing={6} px={[4, 8]} pt={[4, 6]}>
         {/* Brand & Profile bar */}
         <Header />
-        <SearchBar />
       </Stack>
       {largerThanMd === false && (
         <Box ml={[4, 8]} mt={4}>

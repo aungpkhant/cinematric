@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Box, Flex, Stack } from "@chakra-ui/react";
 
 import Header from "@/components/common/Header";
-import SearchBar from "@/components/common/SearchBar";
 import Footer from "@/components/common/Footer";
 
 import theme from "@/styles/theme";
