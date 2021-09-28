@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { InputGroup, InputLeftElement, Input } from "@chakra-ui/react";
+import {
+  Box,
+  IconButton,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  Input,
+} from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
+import { MdClear } from "react-icons/md";
 import { useRouter } from "next/router";
 
 const SearchBar = () => {
@@ -32,6 +40,20 @@ const SearchBar = () => {
           border="initial"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <InputRightElement
+          children={
+            searchQuery ? (
+              <IconButton
+                fontSize="18px"
+                icon={<MdClear />}
+                color="gray.400"
+                onClick={(_) => {
+                  setSearchQuery("");
+                }}
+              />
+            ) : null
+          }
         />
       </InputGroup>
     </form>

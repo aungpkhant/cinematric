@@ -134,11 +134,6 @@ const SideBar = () => {
       alignSelf="flex-start"
     >
       <Stack direction="column" spacing={4} color="gray.100" w="full">
-        <NextLink href={"/"} passHref>
-          <Link fontSize="2xl" fontWeight="medium">
-            Home
-          </Link>
-        </NextLink>
         <Box>
           <Text fontSize="2xl" fontWeight="medium">
             Movies
