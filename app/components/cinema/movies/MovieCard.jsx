@@ -99,8 +99,8 @@ const MovieCard = ({
                 onClick={(e) => {
                   e.preventDefault();
                 }}
-                colorScheme="apple"
-                color="apple.800"
+                colorScheme="blue"
+                color="blue.800"
               >
                 Watch Trailer
               </Button>

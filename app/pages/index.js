@@ -1,14 +1,13 @@
-import LandingLayout from "@/layouts/landing";
+import BaseLayout from "@/layouts/BaseLayout";
 import { Button, Flex, Stack, Heading, Box } from "@chakra-ui/react";
 import NextLink from "next/link";
 
 import LandingCards from "@/components/landing/LandingCards";
 import Features from "@/components/landing/Features";
-import BrandButton from "@/components/base/Button";
 
 export default function LandingPage({ children }) {
   return (
-    <LandingLayout>
+    <BaseLayout>
       <Flex direction="column" as="main" flexGrow="1">
         <Flex direction="column" p={[4, 8]}>
           <LandingCards />
@@ -19,11 +18,15 @@ export default function LandingPage({ children }) {
             </Heading>
             <Flex justifyContent="center">
               <Stack direction="row" spacing={4} w="fit-content">
-                <NextLink href="/browse/m/popular" passHref>
-                  <BrandButton as="a">Browse Movies</BrandButton>
+                <NextLink href="/sign-up" passHref>
+                  <Button colorScheme="blue" as="a">
+                    Join Cinematric Free
+                  </Button>
                 </NextLink>
-                <NextLink href="/browse/tv/popular" passHref>
-                  <BrandButton as="a">Browse TV</BrandButton>
+                <NextLink href="/browse/m/popular" passHref>
+                  <Button colorScheme="blue" variant="outline" as="a">
+                    Browse
+                  </Button>
                 </NextLink>
               </Stack>
             </Flex>
@@ -44,6 +47,6 @@ export default function LandingPage({ children }) {
           </Box>
         </Box>
       </Flex>
-    </LandingLayout>
+    </BaseLayout>
   );
 }

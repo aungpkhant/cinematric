@@ -35,6 +35,7 @@ const ScreenLayoutWrapper = ({ title, children }) => {
   );
 };
 
+// TODO refactor with
 const BrowseLayout = ({
   title,
   categoryBar,
