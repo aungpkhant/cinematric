@@ -55,10 +55,19 @@ module.exports = async function (fastify, opts) {
         }
 
         const passwordHash = await bcrypt.hash(password, 10);
-        const user = await fastify.db.one(
-          "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id",
-          [username, email, passwordHash]
-        );
+
+        const { user, _ } = await fastify.db.tx(async (t) => {
+          const user = await t.one(
+            "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id",
+            [username, email, passwordHash]
+          );
+          const movie_list = await t.one(
+            "INSERT INTO movie_lists (user_id) VALUES ($1) RETURNING id",
+            [user.id]
+          );
+
+          return { user, movie_list };
+        });
 
         reply.code(201).send({
           id: user.id,
