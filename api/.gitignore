@@ -60,3 +60,5 @@ profile*
 .env
 .env.local
 .env.prod
+
+CHEATSHEET.md
