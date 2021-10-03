@@ -5,19 +5,19 @@ const DbMigrate = require("db-migrate");
 const appConfig = require("../config/appConfig");
 
 // * Will run migrations manually for now
-// function runMigrations() {
-//   return new Promise((resolve, reject) => {
-//     const dbMigrate = DbMigrate.getInstance(true);
+function runMigrations() {
+  return new Promise((resolve, reject) => {
+    const dbMigrate = DbMigrate.getInstance(true);
 
-//     dbMigrate.up((error, results = []) => {
-//       if (error) {
-//         return reject(error);
-//       }
+    dbMigrate.up((error, results = []) => {
+      if (error) {
+        return reject(error);
+      }
 
-//       resolve(results);
-//     });
-//   });
-// }
+      resolve(results);
+    });
+  });
+}
 
 /**
  * @param {import('fastify').FastifyInstance}
@@ -31,14 +31,14 @@ module.exports = fp(
       done();
     });
 
-    // const migrationResults = await runMigrations();
+    const migrationResults = await runMigrations();
 
-    // if (migrationResults.length > 0) {
-    //   fastify.log.info({
-    //     migrationsCount: migrationResutls.length,
-    //     msg: "Successfully ran migrations",
-    //   });
-    // }
+    if (migrationResults.length > 0) {
+      fastify.log.info({
+        migrationsCount: migrationResults.length,
+        msg: "Successfully ran migrations",
+      });
+    }
   },
   {
     name: "db",

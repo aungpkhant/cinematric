@@ -2,7 +2,7 @@ const setupTestEnvironment = require("../../setupTestEnvironment");
 
 const fastify = setupTestEnvironment();
 
-test("should signup a user", async () => {
+test("should signup a user with default movie and tv list", async () => {
   const user = { username: "test", email: "test@test.com", password: "test" };
 
   const signup = await fastify.inject({
@@ -13,6 +13,26 @@ test("should signup a user", async () => {
 
   expect(signup.statusCode).toBe(201);
   expect(signup.json().username).toBe(user.username);
+
+  const cookie = signup.headers["set-cookie"];
+
+  const myMovieList = await fastify.inject({
+    url: "/api/lists/my-movie-list",
+    method: "GET",
+    headers: { cookie },
+  });
+
+  expect(myMovieList.statusCode).toBe(200);
+  expect(myMovieList.json().items).toEqual([]);
+
+  const myTvList = await fastify.inject({
+    url: "/api/lists/my-tv-list",
+    method: "GET",
+    headers: { cookie },
+  });
+
+  expect(myTvList.statusCode).toBe(200);
+  expect(myTvList.json().items).toEqual([]);
 });
 
 test("should reject signup when username is taken", async () => {

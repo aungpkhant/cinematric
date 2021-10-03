@@ -61,13 +61,19 @@ module.exports = async function (fastify, opts) {
             "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id",
             [username, email, passwordHash]
           );
-          const movie_list = await t.one(
-            "INSERT INTO movie_lists (user_id) VALUES ($1) RETURNING id",
+          await t.one(
+            `INSERT INTO media_lists (user_id, list_type, media_type) VALUES ($1, 'default', 'movie') RETURNING id`,
+            [user.id]
+          );
+          await t.one(
+            `INSERT INTO media_lists (user_id, list_type, media_type) VALUES ($1, 'default', 'tv') RETURNING id`,
             [user.id]
           );
 
-          return { user, movie_list };
+          return { user };
         });
+
+        request.session.user = { userId: user.id, isLoggedIn: true };
 
         reply.code(201).send({
           id: user.id,

@@ -13,12 +13,12 @@ module.exports = async function (fastify, opts) {
     async function (request, reply) {
       try {
         const queryMovieListings = fastify.db.any(
-          `SELECT * FROM movie_listings WHERE movie_list_id = (SELECT id from movie_lists WHERE user_id = $1)`,
+          `SELECT * FROM media_listings WHERE media_list_id = (SELECT id from media_lists WHERE user_id = $1 AND list_type = 'default' AND media_type = 'movie')`,
           [request.user]
         );
 
         const queryMovieList = fastify.db.one(
-          `SELECT * FROM movie_lists WHERE user_id = $1`,
+          `SELECT * FROM media_lists WHERE user_id = $1 AND list_type = 'default' AND media_type = 'movie'`,
           [request.user]
         );
 
@@ -39,42 +39,92 @@ module.exports = async function (fastify, opts) {
     }
   );
 
-  fastify.post(
-    "/movie-list-item",
+  fastify.get(
+    "/my-tv-list",
     {
       schema: {
-        description: "Add movie to my movie list",
+        description: "Get my tv show list",
+      },
+      preHandler: [isLoggedIn],
+    },
+    async function (request, reply) {
+      try {
+        const queryTvListings = fastify.db.any(
+          `SELECT * FROM media_listings WHERE media_list_id = (SELECT id from media_lists WHERE user_id = $1 AND list_type = 'default' AND media_type = 'tv')`,
+          [request.user]
+        );
+
+        const queryTvList = fastify.db.one(
+          `SELECT * FROM media_lists WHERE user_id = $1 AND list_type = 'default' AND media_type = 'tv'`,
+          [request.user]
+        );
+
+        const [items, tv_list] = await Promise.all([
+          queryTvListings,
+          queryTvList,
+        ]);
+
+        reply.send({
+          id: tv_list.id,
+          created_at: tv_list.created_at,
+          items: items,
+          count: items.length,
+        });
+      } catch (error) {
+        throw error;
+      }
+    }
+  );
+
+  fastify.post(
+    "/media-listing",
+    {
+      schema: {
+        description: "Add an item to a media list",
         body: {
           type: "object",
-          required: ["movieId", "movie"],
+          required: ["media_list_id", "media_id", "media_type", "item"],
           properties: {
-            movieId: { type: "integer" },
-            movie: { type: "object" },
+            media_list_id: { type: "string" },
+            media_id: { type: "integer" },
+            media_type: { type: "string", enum: ["tv", "movie"] },
+            item: { type: "object" },
           },
         },
       },
       preHandler: [isLoggedIn],
     },
     async function (request, reply) {
-      const { movieId, movie } = request.body;
+      const { media_list_id, media_id, media_type, item } = request.body;
 
+      // TODO check if user owns the list_id
       try {
-        const movieList = await fastify.db.one(
-          "SELECT id FROM movie_lists WHERE user_id = $1",
-          [request.user]
-        );
-        console.log(movieList);
+        // const { id, created_at } = await fastify.db.one(
+        //   "INSERT INTO media_listings (media_list_id, media_id, media_type, item, status) VALUES ($1, $2, $3, $4, $5) RETURNING id, created_at",
+        //   [media_list_id, media_id, media_type, item, "plan_to_watch"]
+        // );
+
         const { id, created_at } = await fastify.db.one(
-          "INSERT INTO movie_listings (movie_list_id, movie_id, movie) VALUES ($1, $2, $3) RETURNING id, created_at",
-          [movieList.id, movieId, movie]
+          "INSERT INTO media_listings (media_list_id, media_id, media_type, item, status) SELECT $1, $2, $3, $4, $5 FROM media_lists WHERE id = $6 AND user_id = $7 RETURNING id, created_at",
+          [
+            media_list_id,
+            media_id,
+            media_type,
+            item,
+            "plan_to_watch",
+            media_list_id,
+            request.user,
+          ]
         );
 
         reply.code(200).send({
           item: {
             id: id,
-            movieId,
-            movie,
             created_at,
+            media_list_id,
+            media_id,
+            status: "plan_to_watch",
+            item,
           },
         });
       } catch (error) {
