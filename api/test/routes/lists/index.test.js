@@ -35,78 +35,9 @@ const generateMediaListingPayload = (media_list_id) => ({
       "After saving the life of their heir apparent, tenacious loner Snake Eyes is welcomed into an ancient Japanese clan called the Arashikage where he is taught the ways of the ninja warrior. But, when secrets from his past are revealed, Snake Eyes' honor and allegiance will be tested – even if that means losing the trust of those closest to him.",
     popularity: 2113.234,
     poster_path: "/uIXF0sQGXOxQhbaEaKOi2VYlIL0.jpg",
-    production_companies: [
-      {
-        id: 4,
-        logo_path: "/fycMZt242LVjagMByZOLUGbCvv3.png",
-        name: "Paramount",
-        origin_country: "US",
-      },
-      {
-        id: 21,
-        logo_path: "/aOWKh4gkNrfFZ3Ep7n0ckPhoGb5.png",
-        name: "Metro-Goldwyn-Mayer",
-        origin_country: "US",
-      },
-      {
-        id: 435,
-        logo_path: "/AjzK0s2w1GtLfR4hqCjVSYi0Sr8.png",
-        name: "Di Bonaventura Pictures",
-        origin_country: "US",
-      },
-      {
-        id: 8147,
-        logo_path: "/q6HOAdSNgCbeOqwoMVRc6REgbXF.png",
-        name: "Entertainment One",
-        origin_country: "CA",
-      },
-      {
-        id: 82819,
-        logo_path: "/5Z8WWr0Lf1tInVWwJsxPP0uMz9a.png",
-        name: "Skydance Media",
-        origin_country: "US",
-      },
-      {
-        id: 2598,
-        logo_path: "/i42C5gRq7XqlG4S9vkchuJZfrBn.png",
-        name: "Hasbro",
-        origin_country: "",
-      },
-    ],
-    production_countries: [
-      {
-        iso_3166_1: "CA",
-        name: "Canada",
-      },
-      {
-        iso_3166_1: "JP",
-        name: "Japan",
-      },
-      {
-        iso_3166_1: "US",
-        name: "United States of America",
-      },
-    ],
     release_date: "2021-07-22",
     revenue: 36964325,
     runtime: 121,
-    spoken_languages: [
-      {
-        english_name: "English",
-        iso_639_1: "en",
-        name: "English",
-      },
-      {
-        english_name: "Japanese",
-        iso_639_1: "ja",
-        name: "日本語",
-      },
-      {
-        english_name: "Italian",
-        iso_639_1: "it",
-        name: "Italiano",
-      },
-    ],
     status: "Released",
     tagline: "Every warrior has a beginning.",
     title: "Snake Eyes: G.I. Joe Origins",
@@ -116,8 +47,9 @@ const generateMediaListingPayload = (media_list_id) => ({
   },
 });
 
-describe("Media listing", () => {
+describe("Media List endpoints", () => {
   let cookie = null;
+  let userDefaultMovieListId = null;
 
   beforeEach(async () => {
     const user = {
@@ -134,9 +66,7 @@ describe("Media listing", () => {
 
     expect(signup.statusCode).toBe(201);
     cookie = signup.headers["set-cookie"];
-  });
 
-  test("should be added to user's default movie list", async () => {
     const userDefaultMovieList = await fastify.inject({
       url: "/api/lists/my-movie-list",
       method: "GET",
@@ -146,16 +76,21 @@ describe("Media listing", () => {
     expect(userDefaultMovieList.statusCode).toBe(200);
     expect(userDefaultMovieList.json().id).toBeTruthy();
 
-    const userDefaultMovieListId = userDefaultMovieList.json().id;
+    userDefaultMovieListId = userDefaultMovieList.json().id;
+  });
+
+  test("should add a movie listing to user's default movie list", async () => {
+    let payload = generateMediaListingPayload(userDefaultMovieListId);
 
     const addItemToMovieList = await fastify.inject({
       url: "/api/lists/media-listing",
       method: "POST",
       headers: { cookie },
-      payload: generateMediaListingPayload(userDefaultMovieListId),
+      payload: payload,
     });
 
     expect(addItemToMovieList.statusCode).toBe(200);
+    expect(addItemToMovieList.json().item.media_id).toBe(payload.media_id);
 
     const userDefaultMovieListAfterDataAdded = await fastify.inject({
       url: "/api/lists/my-movie-list",
@@ -167,7 +102,51 @@ describe("Media listing", () => {
     expect(userDefaultMovieListAfterDataAdded.json().count).toBe(1);
   });
 
-  test.todo("should fail when adding to other user's list");
+  test("should fail when adding to other user's list", async () => {
+    const secondUser = {
+      username: "ashura2",
+      email: "ashura2@test.com",
+      password: "test",
+    };
 
-  test.todo("should fail when adding duplicate items to list");
+    const signUpSecondUser = await fastify.inject({
+      url: "/api/users/signup",
+      method: "POST",
+      payload: secondUser,
+    });
+
+    expect(signUpSecondUser.statusCode).toBe(201);
+
+    // Authorized as second user
+    secondUserCookie = signUpSecondUser.headers["set-cookie"];
+
+    const addItemToFirstUserList = await fastify.inject({
+      url: "/api/lists/media-listing",
+      method: "POST",
+      headers: { cookie: secondUserCookie },
+      payload: generateMediaListingPayload(userDefaultMovieListId),
+    });
+
+    expect(addItemToFirstUserList.statusCode).toBe(500);
+  });
+
+  test("should fail when adding duplicate items to list", async () => {
+    const addItemToMovieList = await fastify.inject({
+      url: "/api/lists/media-listing",
+      method: "POST",
+      headers: { cookie },
+      payload: generateMediaListingPayload(userDefaultMovieListId),
+    });
+
+    expect(addItemToMovieList.statusCode).toBe(200);
+
+    const addDuplicateItemToMovieList = await fastify.inject({
+      url: "/api/lists/media-listing",
+      method: "POST",
+      headers: { cookie },
+      payload: generateMediaListingPayload(userDefaultMovieListId),
+    });
+
+    expect(addDuplicateItemToMovieList.statusCode).toBe(500);
+  });
 });

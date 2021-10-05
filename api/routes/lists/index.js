@@ -97,13 +97,7 @@ module.exports = async function (fastify, opts) {
     async function (request, reply) {
       const { media_list_id, media_id, media_type, item } = request.body;
 
-      // TODO check if user owns the list_id
       try {
-        // const { id, created_at } = await fastify.db.one(
-        //   "INSERT INTO media_listings (media_list_id, media_id, media_type, item, status) VALUES ($1, $2, $3, $4, $5) RETURNING id, created_at",
-        //   [media_list_id, media_id, media_type, item, "plan_to_watch"]
-        // );
-
         const { id, created_at } = await fastify.db.one(
           "INSERT INTO media_listings (media_list_id, media_id, media_type, item, status) SELECT $1, $2, $3, $4, $5 FROM media_lists WHERE id = $6 AND user_id = $7 RETURNING id, created_at",
           [

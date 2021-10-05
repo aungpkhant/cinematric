@@ -14,13 +14,13 @@ module.exports = function setupTestEnvironment() {
 
   // Setup fastify server
   const server = fastify({
-    logger: {
-      prettyPrint: {
-        translateTime: true,
-        ignore: "pid,hostname,reqId,responseTime,req,res",
-        messageFormat: "{msg} [id={reqId} {req.method} {req.url}]",
-      },
-    },
+    // logger: {
+    //   prettyPrint: {
+    //     translateTime: true,
+    //     ignore: "pid,hostname,reqId,responseTime,req,res",
+    //     messageFormat: "{msg} [id={reqId} {req.method} {req.url}]",
+    //   },
+    // },
     pluginTimeout: 2 * 60 * 1000,
   });
 
