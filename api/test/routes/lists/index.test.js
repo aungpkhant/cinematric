@@ -79,7 +79,7 @@ describe("Media List endpoints", () => {
     userDefaultMovieListId = userDefaultMovieList.json().id;
   });
 
-  test("should add a movie listing to user's default movie list", async () => {
+  it("should add a movie listing to user's default movie list", async () => {
     let payload = generateMediaListingPayload(userDefaultMovieListId);
 
     const addItemToMovieList = await fastify.inject({
@@ -102,7 +102,7 @@ describe("Media List endpoints", () => {
     expect(userDefaultMovieListAfterDataAdded.json().count).toBe(1);
   });
 
-  test("should fail when adding to other user's list", async () => {
+  it("should fail when adding to other user's list", async () => {
     const secondUser = {
       username: "ashura2",
       email: "ashura2@test.com",
@@ -130,7 +130,7 @@ describe("Media List endpoints", () => {
     expect(addItemToFirstUserList.statusCode).toBe(500);
   });
 
-  test("should fail when adding duplicate items to list", async () => {
+  it("should fail when adding duplicate items to list", async () => {
     const addItemToMovieList = await fastify.inject({
       url: "/api/lists/media-listing",
       method: "POST",
@@ -149,4 +149,6 @@ describe("Media List endpoints", () => {
 
     expect(addDuplicateItemToMovieList.statusCode).toBe(500);
   });
+
+  it.todo("should edit a media listing");
 });

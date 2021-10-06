@@ -29,7 +29,9 @@ module.exports = async function (fastify, opts) {
 
         reply.send({
           id: movie_list.id,
+          name: movie_list.name,
           created_at: movie_list.created_at,
+          updated_at: movie_list.updated_at,
           items: items,
           count: items.length,
         });
@@ -66,7 +68,9 @@ module.exports = async function (fastify, opts) {
 
         reply.send({
           id: tv_list.id,
+          name: tv_list.name,
           created_at: tv_list.created_at,
+          updated_at: tv_list.updated_at,
           items: items,
           count: items.length,
         });
@@ -121,6 +125,25 @@ module.exports = async function (fastify, opts) {
             item,
           },
         });
+      } catch (error) {
+        throw error;
+      }
+    }
+  );
+
+  fastify.put(
+    "/media-listing/:id",
+    {
+      schema: {
+        description: "Edit media listing",
+        preHandler: [isLoggedIn],
+      },
+    },
+    async function (request, reply) {
+      try {
+        const params = request.params;
+        console.log(params);
+        reply.send("ok");
       } catch (error) {
         throw error;
       }

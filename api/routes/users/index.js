@@ -61,12 +61,8 @@ module.exports = async function (fastify, opts) {
             "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id",
             [username, email, passwordHash]
           );
-          await t.one(
-            `INSERT INTO media_lists (user_id, list_type, media_type) VALUES ($1, 'default', 'movie') RETURNING id`,
-            [user.id]
-          );
-          await t.one(
-            `INSERT INTO media_lists (user_id, list_type, media_type) VALUES ($1, 'default', 'tv') RETURNING id`,
+          await t.any(
+            `INSERT INTO media_lists (user_id, name, list_type, media_type) VALUES ($1, 'default.movie', 'default', 'movie'), ($1, 'default.tv', 'default', 'tv') RETURNING id`,
             [user.id]
           );
 
@@ -148,15 +144,22 @@ module.exports = async function (fastify, opts) {
     },
     async function (request, reply) {
       try {
-        const user = await fastify.db
-          .oneOrNone("SELECT id, username, email FROM users WHERE id = $1", [
-            request.user,
-          ])
-          .catch((error) => {
-            console.log(error);
-          });
+        const queryUser = fastify.db.oneOrNone(
+          "SELECT id, username, email FROM users WHERE id = $1",
+          [request.user]
+        );
 
-        return user;
+        const queryUserLists = fastify.db.any(
+          "SELECT id, name, list_type, media_type FROM media_lists WHERE user_id = $1",
+          [request.user]
+        );
+
+        const [user, lists] = await Promise.all([queryUser, queryUserLists]);
+
+        reply.send({
+          ...user,
+          lists,
+        });
       } catch (error) {
         console.warn(error);
         throw new Error("Server Error");
