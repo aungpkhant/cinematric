@@ -21,8 +21,11 @@ import { HiMenu } from "react-icons/hi";
 import SearchBar from "./SearchBar";
 
 import { SideBarContent } from "./SideBar";
+import AvatarMenu from "./AvatarMenu";
+import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
+  const { user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const drawerButtonRef = React.useRef();
 
@@ -44,14 +47,15 @@ const Header = () => {
           onClick={onOpen}
           display={["inline-flex", "inline-flex", "none"]}
         />
-        <Button
-          height="100%"
-          px={0}
-          variant="ghost"
-          display={["none", "none", "block"]}
-        >
-          <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-        </Button>
+        {user ? (
+          <AvatarMenu />
+        ) : (
+          <NextLink href={"/sign-in"} passHref>
+            <Button as="a" display={["none", "none", "inline-flex"]}>
+              Sign In
+            </Button>
+          </NextLink>
+        )}
       </Flex>
 
       {/* Drawer Content */}

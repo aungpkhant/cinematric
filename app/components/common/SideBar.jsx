@@ -10,6 +10,7 @@ import { RiSlideshow3Fill } from "react-icons/ri";
 
 import { MOVIE_GENRES, TV_GENRES } from "@/constants/tmdb";
 import { useAppUiState } from "@/hooks/useAppUiState";
+import { useAuth } from "@/hooks/useAuth";
 
 const SubLinkWithIcon = ({ icon, href, text, ...props }) => {
   return (
@@ -125,12 +126,13 @@ const SideBarContent = () => {
     toggleSidebarMovieGenresExpansion,
     toggleSidebarTvGenresExpansion,
   } = useAppUiState();
+  const { user } = useAuth();
 
   return (
     <Stack direction="column" spacing={4} color="gray.100" w="full">
       <Box>
         <Text fontSize="2xl" fontWeight="medium" isTruncated>
-          ThisIsMyUsername
+          {user?.username || "Guest"}
         </Text>
         <Stack pt={2} spacing={3} w="full">
           <SubLinkWithIcon
