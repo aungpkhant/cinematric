@@ -84,7 +84,7 @@ module.exports = async function (fastify, opts) {
   );
 
   fastify.post(
-    "/login",
+    "/signin",
     {
       schema: {
         tags: ["users"],
@@ -123,6 +123,37 @@ module.exports = async function (fastify, opts) {
           .send({ id: user.id, username: user.username, success: true });
       } catch (error) {
         throw new Error("Invalid Credentials");
+      }
+    }
+  );
+
+  fastify.delete(
+    "/signout",
+    {
+      schema: {
+        tags: ["users"],
+      },
+    },
+    function (request, reply) {
+      try {
+        if (request.session) {
+          // console.log(request.session);
+          // console.log(request.sessionStore);
+
+          request.destroySession((err) => {
+            if (err) {
+              return reply.code(500).send("Unable to sign out");
+            } else {
+              reply.code(200).send("Signed out successfully");
+            }
+          });
+
+          // TODO check unset cookie
+        } else {
+          reply.code(204).send();
+        }
+      } catch (error) {
+        throw new Error("Something went wrong");
       }
     }
   );
