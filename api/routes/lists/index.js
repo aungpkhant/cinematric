@@ -87,12 +87,11 @@ module.exports = async function (fastify, opts) {
         description: "Add an item to a media list",
         body: {
           type: "object",
-          required: ["media_list_id", "media_id", "media_type", "item"],
+          required: ["media_list_id", "media_id", "media_type"],
           properties: {
             media_list_id: { type: "string" },
             media_id: { type: "integer" },
             media_type: { type: "string", enum: ["tv", "movie"] },
-            item: { type: "object" },
           },
         },
       },
@@ -102,13 +101,15 @@ module.exports = async function (fastify, opts) {
       const { media_list_id, media_id, media_type, item } = request.body;
 
       try {
-        const { id, created_at } = await fastify.db.one(
-          "INSERT INTO media_listings (media_list_id, media_id, media_type, item, status) SELECT $1, $2, $3, $4, $5 FROM media_lists WHERE id = $6 AND user_id = $7 RETURNING id, created_at",
+        const {
+          id,
+          created_at,
+        } = await fastify.db.one(
+          "INSERT INTO media_listings (media_list_id, media_id, media_type, status) SELECT $1, $2, $3, $4 FROM media_lists WHERE id = $5 AND user_id = $6 RETURNING id, created_at",
           [
             media_list_id,
             media_id,
             media_type,
-            item,
             "plan_to_watch",
             media_list_id,
             request.user,
