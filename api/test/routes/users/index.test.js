@@ -95,7 +95,7 @@ test("should reject signup when email is taken", async () => {
   expect(signupSecondUser.statusCode).toBe(422);
 });
 
-test("should login a user and access user profile", async () => {
+test("should sign in a user and access user profile", async () => {
   const user = { username: "test", email: "test@test.com", password: "test" };
 
   const signup = await fastify.inject({
@@ -105,7 +105,7 @@ test("should login a user and access user profile", async () => {
   });
 
   const login = await fastify.inject({
-    url: "/api/users/login",
+    url: "/api/users/signin",
     method: "POST",
     payload: user,
   });
