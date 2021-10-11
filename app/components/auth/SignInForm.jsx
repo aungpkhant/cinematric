@@ -1,5 +1,8 @@
 import {
   chakra,
+  Alert,
+  AlertIcon,
+  AlertDescription,
   Flex,
   Box,
   Button,
@@ -88,6 +91,14 @@ const SignInForm = (props) => {
             {errors.password && errors.password.message}
           </FormErrorMessage>
         </FormControl>
+        {authError ? (
+          <Alert status="error">
+            <AlertIcon />
+            <AlertDescription display="block" whiteSpace="pre-wrap">
+              {authError}
+            </AlertDescription>
+          </Alert>
+        ) : null}
         <Button type="submit" colorScheme="blue" size="lg" fontSize="md">
           Sign in
         </Button>
