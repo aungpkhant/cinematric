@@ -16,6 +16,7 @@ import { format, parseISO } from "date-fns";
 import { TMDB_IMG_BASE_URL, TMDB_POSTER_SIZES } from "@/constants/tmdb";
 import { mapMovieGenreIdToGenre } from "@/utils/movies";
 import Poster404 from "@/assets/FourOFour/poster-404.jpg";
+import AddToListButton from "@/components/media-lists/AddToListButton";
 
 const MovieCard = ({
   id,
@@ -25,6 +26,7 @@ const MovieCard = ({
   vote_average,
   poster_path,
   release_date,
+  media_type,
 }) => {
   return (
     <NextLink href={`/m/${id}`}>
@@ -93,17 +95,9 @@ const MovieCard = ({
               </Flex>
             </Flex>
             <Box flexShrink="0" display={["initial", "initial", "none"]}>
-              <Button
-                isFullWidth
-                size="sm"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
-                colorScheme="blue"
-                color="blue.800"
-              >
-                Watch Trailer
-              </Button>
+              <AddToListButton media_id={id} media_type={media_type}>
+                Add to Movie List
+              </AddToListButton>
             </Box>
           </Flex>
         </Flex>

@@ -69,6 +69,7 @@ const SignUpForm = (props) => {
               required: "Username is required",
               minLength: { value: 4, message: "Minimum length should be 4" },
             })}
+            autoComplete="off"
           />
           <FormErrorMessage>
             {errors.username && errors.username.message}
@@ -85,6 +86,7 @@ const SignUpForm = (props) => {
                 message: "Invalid email address",
               },
             })}
+            autoComplete="on"
           />
           <FormErrorMessage>
             {errors.email && errors.email.message}

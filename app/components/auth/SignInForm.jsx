@@ -67,6 +67,7 @@ const SignInForm = (props) => {
                 message: "Invalid email address",
               },
             })}
+            autoComplete="on"
           />
           <FormErrorMessage>
             {errors.email && errors.email.message}
