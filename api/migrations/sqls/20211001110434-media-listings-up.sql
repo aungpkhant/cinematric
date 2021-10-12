@@ -7,5 +7,6 @@ create table media_listings (
   status TEXT CHECK (status IN ('watching', 'plan_to_watch', 'completed', 'dropped')),
   item JSON,
   remark TEXT,
+  user_id uuid NOT NULL,
   UNIQUE (media_id, media_list_id, media_type)
 );

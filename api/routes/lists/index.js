@@ -105,7 +105,7 @@ module.exports = async function (fastify, opts) {
           id,
           created_at,
         } = await fastify.db.one(
-          "INSERT INTO media_listings (media_list_id, media_id, media_type, status) SELECT $1, $2, $3, $4 FROM media_lists WHERE id = $5 AND user_id = $6 RETURNING id, created_at",
+          "INSERT INTO media_listings (media_list_id, media_id, media_type, status, user_id) SELECT $1, $2, $3, $4, $6 FROM media_lists WHERE id = $5 AND user_id = $6 RETURNING id, created_at",
           [
             media_list_id,
             media_id,
@@ -135,16 +135,46 @@ module.exports = async function (fastify, opts) {
   fastify.put(
     "/media-listing/:id",
     {
+      preHandler: [isLoggedIn],
       schema: {
         description: "Edit media listing",
-        preHandler: [isLoggedIn],
+        params: {
+          properties: {
+            id: { type: "string" },
+          },
+        },
+        body: {
+          type: "object",
+          required: ["status", "remark"],
+          properties: {
+            status: {
+              type: "string",
+              enum: ["watching", "plan_to_watch", "completed", "dropped"],
+            },
+            remark: {
+              type: "string",
+            },
+          },
+        },
       },
     },
     async function (request, reply) {
       try {
-        const params = request.params;
-        console.log(params);
-        reply.send("ok");
+        const { id } = request.params;
+        const { status, remark } = request.body;
+        fastify.log.info(id);
+        fastify.log.info(status);
+        fastify.log.info(remark);
+        fastify.log.info(request.user);
+
+        const media_listing = await fastify.db.one(
+          "UPDATE media_listings SET status = $1, remark = $2 WHERE id = $3 AND user_id = $4 RETURNING *",
+          [status, remark, id, request.user]
+        );
+
+        reply.send({
+          item: media_listing,
+        });
       } catch (error) {
         throw error;
       }
