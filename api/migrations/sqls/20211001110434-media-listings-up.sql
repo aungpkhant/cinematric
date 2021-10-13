@@ -1,6 +1,7 @@
 create table media_listings (
   id uuid PRIMARY KEY NOT NULL DEFAULT gen_random_uuid(),
   created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
   media_list_id uuid NOT NULL REFERENCES media_lists(id) ON DELETE CASCADE,
   media_id INTEGER NOT NULL,
   media_type TEXT CHECK (media_type IN ('tv', 'movie')),

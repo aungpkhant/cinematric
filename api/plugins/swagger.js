@@ -18,18 +18,15 @@ module.exports = fp(async function (fastify, opts) {
           name: "users",
           description: "User related endpoints",
         },
+        {
+          name: "lists",
+          description: "Watchlist endpoints",
+        },
       ],
       definitions: {},
-      //   securityDefinitions: {
-      //     apiKey: {
-      //       type: "apiKey",
-      //       name: "apiKey",
-      //       in: "header",
-      //     },
-      //   },
     },
     uiConfig: {
-      docExpansion: "full",
+      docExpansion: "list",
       deepLinking: false,
     },
     staticCSP: true,

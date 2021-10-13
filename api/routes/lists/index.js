@@ -6,6 +6,7 @@ module.exports = async function (fastify, opts) {
     "/my-movie-list",
     {
       schema: {
+        tags: ["lists"],
         description: "Get my movie list",
       },
       preHandler: [isLoggedIn],
@@ -45,6 +46,7 @@ module.exports = async function (fastify, opts) {
     "/my-tv-list",
     {
       schema: {
+        tags: ["lists"],
         description: "Get my tv show list",
       },
       preHandler: [isLoggedIn],
@@ -84,6 +86,7 @@ module.exports = async function (fastify, opts) {
     "/media-listing",
     {
       schema: {
+        tags: ["lists"],
         description: "Add an item to a media list",
         body: {
           type: "object",
@@ -137,8 +140,11 @@ module.exports = async function (fastify, opts) {
     {
       preHandler: [isLoggedIn],
       schema: {
+        tags: ["lists"],
         description: "Edit media listing",
         params: {
+          type: "object",
+          required: ["id"],
           properties: {
             id: { type: "string" },
           },
