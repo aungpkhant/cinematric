@@ -113,11 +113,7 @@ const MovieListTable = ({ listings, refresh }) => {
     <>
       <Box overflowX="auto">
         <Table variant="simple">
-          <TableCaption>
-            <Text mb={4} color="gray.400">
-              Showing 1 to 20 out of 33 listings
-            </Text>
-          </TableCaption>
+          <TableCaption></TableCaption>
           <Thead>
             <Tr>
               <Th>Image</Th>

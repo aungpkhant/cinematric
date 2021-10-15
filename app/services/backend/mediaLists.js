@@ -1,7 +1,7 @@
 import fetchCinematric from "@/lib/fetchCinematric";
 
-export const getMyMovieList = () => {
-  return fetchCinematric("GET", "/lists/my-movie-list");
+export const getMyMovieList = (params) => {
+  return fetchCinematric("GET", "/lists/my-movie-list", params);
 };
 
 export const addToMediaList = (media_id, media_type, media_list_id) => {

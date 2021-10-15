@@ -16,22 +16,28 @@ import { getMovieDetail } from "@/services/tmdb/movies";
 import MediaListSkeleton from "@/components/skeletons/MediaListSkeleton";
 import ListMetaData from "@/components/media-lists/ListMetaData";
 import MovieListTable from "@/components/media-lists/MovieListTable";
+import { LISTING_STATUS_ENUM } from "@/constants/cinematric";
 
 export default function MyMovieListPage() {
+  const [listStatus, setListStatus] = useState(null);
   const [listState, setListState] = useState({
     status: "idle",
     data: null,
     error: null,
   });
 
+  const handleTabClick = (status) => {
+    setListStatus(status);
+  };
+
   // * https://stackoverflow.com/questions/26076511/handling-multiple-catches-in-promise-chain
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     setListState({
       ...listState,
       status: "pending",
       error: null,
     });
-    getMyMovieList()
+    getMyMovieList(listStatus == null ? {} : { status: listStatus })
       .then(
         (res) => {
           return res.data;
@@ -78,9 +84,9 @@ export default function MyMovieListPage() {
           });
         }
       });
-  };
+  }, [listStatus]);
 
-  useEffect(fetchData, []);
+  useEffect(fetchData, [fetchData]);
 
   return (
     <AppLayout
@@ -90,15 +96,17 @@ export default function MyMovieListPage() {
         </Heading>
       }
     >
-      <Tabs colorScheme="blue">
-        <TabList>
-          <Tab>All</Tab>
-          <Tab>Watching</Tab>
-          <Tab>Plan to Watch</Tab>
-          <Tab>Completed</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel px={0}>
+      <Box>
+        <Tabs colorScheme="blue">
+          <TabList>
+            <Tab onClick={() => handleTabClick(null)}>All</Tab>
+            {Object.values(LISTING_STATUS_ENUM).map((statusObj) => (
+              <Tab onClick={() => handleTabClick(statusObj.value)}>
+                {statusObj.text}
+              </Tab>
+            ))}
+          </TabList>
+          <Box pt={5}>
             {listState.status === "pending" && <MediaListSkeleton />}
             {listState.status === "success" && (
               <>
@@ -113,9 +121,9 @@ export default function MyMovieListPage() {
               </>
             )}
             {listState.status === "error" && <Text>Something went wrong</Text>}
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+          </Box>
+        </Tabs>
+      </Box>
     </AppLayout>
   );
 }
