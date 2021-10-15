@@ -11,3 +11,14 @@ export const addToMediaList = (media_id, media_type, media_list_id) => {
     media_list_id,
   });
 };
+
+export const deleteFromMediaList = (listing_id) => {
+  return fetchCinematric("DELETE", `/lists/media-listing/${listing_id}`);
+};
+
+export const editMediaListing = (listing_id, status, remark) => {
+  return fetchCinematric("PUT", `/lists/media-listing/${listing_id}`, {
+    status,
+    remark,
+  });
+};

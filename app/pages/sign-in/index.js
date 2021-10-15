@@ -1,17 +1,9 @@
-import {
-  chakra,
-  Box,
-  Flex,
-  Button,
-  Heading,
-  Link,
-  Text,
-} from "@chakra-ui/react";
+import { chakra, Box, Flex, Heading, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 
 import SignInForm from "@/components/auth/SignInForm";
 
-export default function SignInPage({ children }) {
+export default function SignInPage() {
   return (
     <Flex direction="column" as="main" flexGrow="1">
       <Box maxW="md" mx="auto" py="12">
