@@ -17,6 +17,7 @@ import MediaListSkeleton from "@/components/skeletons/MediaListSkeleton";
 import ListMetaData from "@/components/media-lists/ListMetaData";
 import MovieListTable from "@/components/media-lists/MovieListTable";
 import { LISTING_STATUS_ENUM } from "@/constants/cinematric";
+import AuthCheck from "@/components/auth/AuthCheck";
 
 export default function MyMovieListPage() {
   const [listStatus, setListStatus] = useState(null);
@@ -96,34 +97,41 @@ export default function MyMovieListPage() {
         </Heading>
       }
     >
-      <Box>
-        <Tabs colorScheme="blue">
-          <TabList>
-            <Tab onClick={() => handleTabClick(null)}>All</Tab>
-            {Object.values(LISTING_STATUS_ENUM).map((statusObj) => (
-              <Tab onClick={() => handleTabClick(statusObj.value)}>
-                {statusObj.text}
-              </Tab>
-            ))}
-          </TabList>
-          <Box pt={5}>
-            {listState.status === "pending" && <MediaListSkeleton />}
-            {listState.status === "success" && (
-              <>
-                <ListMetaData
-                  count={listState.data.count}
-                  updatedAt={listState.data.updated_at}
-                />
-                <MovieListTable
-                  listings={listState.data.items}
-                  refresh={fetchData}
-                />
-              </>
-            )}
-            {listState.status === "error" && <Text>Something went wrong</Text>}
-          </Box>
-        </Tabs>
-      </Box>
+      <AuthCheck>
+        <Box>
+          <Tabs colorScheme="blue">
+            <TabList>
+              <Tab onClick={() => handleTabClick(null)}>All</Tab>
+              {Object.values(LISTING_STATUS_ENUM).map((statusObj) => (
+                <Tab
+                  key={statusObj.value}
+                  onClick={() => handleTabClick(statusObj.value)}
+                >
+                  {statusObj.text}
+                </Tab>
+              ))}
+            </TabList>
+            <Box pt={5}>
+              {listState.status === "pending" && <MediaListSkeleton />}
+              {listState.status === "success" && (
+                <>
+                  <ListMetaData
+                    count={listState.data.count}
+                    updatedAt={listState.data.updated_at}
+                  />
+                  <MovieListTable
+                    listings={listState.data.items}
+                    refresh={fetchData}
+                  />
+                </>
+              )}
+              {listState.status === "error" && (
+                <Text>Something went wrong</Text>
+              )}
+            </Box>
+          </Tabs>
+        </Box>
+      </AuthCheck>
     </AppLayout>
   );
 }

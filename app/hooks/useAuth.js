@@ -21,48 +21,60 @@ export const useAuth = () => {
   return useContext(authContext);
 };
 
+const initialState = {
+  fetching: false,
+  data: null,
+  error: null,
+};
+
 // Provider hook that creates auth object and handles state
 function useProvideAuth() {
-  const [user, setUser] = useState(null);
-  // Wrap any Firebase methods we want to use making sure ...
+  const [user, setUser] = useState(initialState);
+
+  const getUserInfo = () => {
+    setUser({ ...user, fetching: true, err: null });
+    return getMyProfile()
+      .then((res) => {
+        setUser({ ...user, data: res.data, fetching: false, err: null });
+        return res.data;
+      })
+      .catch((err) => {
+        setUser({ ...user, fetching: false, error: err });
+        console.error(err);
+      });
+  };
+
   // ... to save the user to state.
   const signin = async (email, password) => {
     await signinUser({ email, password });
-    const user = await getMyProfile().then((res) => {
-      setUser(res.data);
-      return res.data;
-    });
+    const user = await getUserInfo();
     return user;
   };
 
   const signup = async (username, email, password) => {
     await signupUser({ username, email, password });
-    const user = await getMyProfile().then((res) => {
-      setUser(res.data);
-      return res.data;
-    });
+    const user = await getUserInfo();
     return user;
   };
 
   const signout = async () => {
     await signoutUser();
-    setUser(null);
+    setUser({
+      fetching: false,
+      data: null,
+      error: null,
+    });
   };
 
   // Get user profile on mount
   useEffect(() => {
-    getMyProfile()
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    getUserInfo();
   }, []);
 
   // Return the user object and auth methods
   return {
-    user,
+    user: user.data,
+    fetchingUser: user.fetching,
     signin,
     signup,
     signout,
