@@ -8,14 +8,25 @@ module.exports = async function (fastify, opts) {
       schema: {
         tags: ["lists"],
         description: "Get my movie list",
+        querystring: {
+          type: "object",
+          properties: {
+            status: {
+              type: "string",
+              enum: ["plan_to_watch", "watching", "dropped", "completed"],
+            },
+          },
+        },
       },
       preHandler: [isLoggedIn],
     },
     async function (request, reply) {
+      let { status: statusQueryString = null } = request.query;
+
       try {
         const queryMovieListings = fastify.db.any(
-          `SELECT * FROM media_listings WHERE media_list_id = (SELECT id from media_lists WHERE user_id = $1 AND list_type = 'default' AND media_type = 'movie')`,
-          [request.user]
+          `SELECT * FROM media_listings WHERE media_list_id = (SELECT id from media_lists WHERE user_id = $1 AND list_type = 'default' AND media_type = 'movie') AND ($2 IS NULL OR status = $2)`,
+          [request.user, statusQueryString]
         );
 
         const queryMovieList = fastify.db.one(
@@ -168,10 +179,6 @@ module.exports = async function (fastify, opts) {
       try {
         const { id } = request.params;
         const { status, remark } = request.body;
-        fastify.log.info(id);
-        fastify.log.info(status);
-        fastify.log.info(remark);
-        fastify.log.info(request.user);
 
         const media_listing = await fastify.db.one(
           "UPDATE media_listings SET status = $1, remark = $2 WHERE id = $3 AND user_id = $4 RETURNING *",
@@ -181,6 +188,38 @@ module.exports = async function (fastify, opts) {
         reply.send({
           item: media_listing,
         });
+      } catch (error) {
+        throw error;
+      }
+    }
+  );
+
+  fastify.delete(
+    "/media-listing/:id",
+    {
+      preHandler: [isLoggedIn],
+      schema: {
+        tags: ["lists"],
+        description: "Delete a media listing",
+        params: {
+          type: "object",
+          required: ["id"],
+          properties: {
+            id: { type: "string" },
+          },
+        },
+      },
+    },
+    async function (request, reply) {
+      try {
+        const { id } = request.params;
+
+        await fastify.db.none(
+          "DELETE FROM media_listings WHERE id = $1 AND user_id = $2",
+          [id, request.user]
+        );
+
+        reply.code(204).send();
       } catch (error) {
         throw error;
       }
