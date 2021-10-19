@@ -25,7 +25,7 @@ module.exports = async function (fastify, opts) {
 
       try {
         const queryMovieListings = fastify.db.any(
-          `SELECT * FROM media_listings WHERE media_list_id = (SELECT id from media_lists WHERE user_id = $1 AND list_type = 'default' AND media_type = 'movie') AND ($2 IS NULL OR status = $2)`,
+          `SELECT * FROM media_listings WHERE media_list_id = (SELECT id from media_lists WHERE user_id = $1 AND list_type = 'default' AND media_type = 'movie') AND ($2 IS NULL OR status = $2) ORDER BY updated_at DESC;`,
           [request.user, statusQueryString]
         );
 
@@ -59,14 +59,25 @@ module.exports = async function (fastify, opts) {
       schema: {
         tags: ["lists"],
         description: "Get my tv show list",
+        querystring: {
+          type: "object",
+          properties: {
+            status: {
+              type: "string",
+              enum: ["plan_to_watch", "watching", "dropped", "completed"],
+            },
+          },
+        },
       },
       preHandler: [isLoggedIn],
     },
     async function (request, reply) {
+      let { status: statusQueryString = null } = request.query;
+
       try {
         const queryTvListings = fastify.db.any(
-          `SELECT * FROM media_listings WHERE media_list_id = (SELECT id from media_lists WHERE user_id = $1 AND list_type = 'default' AND media_type = 'tv')`,
-          [request.user]
+          `SELECT * FROM media_listings WHERE media_list_id = (SELECT id from media_lists WHERE user_id = $1 AND list_type = 'default' AND media_type = 'tv')  AND ($2 IS NULL OR status = $2) ORDER BY updated_at DESC;`,
+          [request.user, statusQueryString]
         );
 
         const queryTvList = fastify.db.one(
@@ -113,22 +124,27 @@ module.exports = async function (fastify, opts) {
     },
     async function (request, reply) {
       const { media_list_id, media_id, media_type, item } = request.body;
+      const currentTimestamp = new Date().toISOString();
 
       try {
-        const {
-          id,
-          created_at,
-        } = await fastify.db.one(
-          "INSERT INTO media_listings (media_list_id, media_id, media_type, status, user_id) SELECT $1, $2, $3, $4, $6 FROM media_lists WHERE id = $5 AND user_id = $6 RETURNING id, created_at",
-          [
+        const { id, created_at } = await fastify.db.tx(async (t) => {
+          const media_listing = await t.one(
+            "INSERT INTO media_listings (media_list_id, media_id, media_type, status, user_id) SELECT $1, $2, $3, $4, $6 FROM media_lists WHERE id = $5 AND user_id = $6 RETURNING id, created_at",
+            [
+              media_list_id,
+              media_id,
+              media_type,
+              "plan_to_watch",
+              media_list_id,
+              request.user,
+            ]
+          );
+          await t.any("UPDATE media_lists SET updated_at = $1 WHERE id = $2", [
+            currentTimestamp,
             media_list_id,
-            media_id,
-            media_type,
-            "plan_to_watch",
-            media_list_id,
-            request.user,
-          ]
-        );
+          ]);
+          return media_listing;
+        });
 
         reply.code(200).send({
           item: {
@@ -179,14 +195,23 @@ module.exports = async function (fastify, opts) {
       try {
         const { id } = request.params;
         const { status, remark } = request.body;
+        const currentTimestamp = new Date().toISOString();
 
-        const media_listing = await fastify.db.one(
-          "UPDATE media_listings SET status = $1, remark = $2 WHERE id = $3 AND user_id = $4 RETURNING *",
-          [status, remark, id, request.user]
-        );
+        const { listing } = await fastify.db.tx(async (t) => {
+          const listing = await t.one(
+            "UPDATE media_listings SET status = $1, remark = $2, updated_at = $3 WHERE id = $4 AND user_id = $5 RETURNING *",
+            [status, remark, currentTimestamp, id, request.user]
+          );
+          await t.any("UPDATE media_lists SET updated_at = $1 WHERE id = $2;", [
+            currentTimestamp,
+            listing.media_list_id,
+          ]);
+
+          return { listing };
+        });
 
         reply.send({
-          item: media_listing,
+          item: listing,
         });
       } catch (error) {
         throw error;
@@ -213,11 +238,18 @@ module.exports = async function (fastify, opts) {
     async function (request, reply) {
       try {
         const { id } = request.params;
+        const currentTimestamp = new Date().toISOString();
 
-        await fastify.db.none(
-          "DELETE FROM media_listings WHERE id = $1 AND user_id = $2",
-          [id, request.user]
-        );
+        await fastify.db.tx(async (t) => {
+          await t.any(
+            "UPDATE media_lists SET updated_at = $1 WHERE id = (SELECT media_list_id from media_listings WHERE id = $2)",
+            [currentTimestamp, id]
+          );
+          await t.none(
+            "DELETE FROM media_listings WHERE id = $1 AND user_id = $2",
+            [id, request.user]
+          );
+        });
 
         reply.code(204).send();
       } catch (error) {
