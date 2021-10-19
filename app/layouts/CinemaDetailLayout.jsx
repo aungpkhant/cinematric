@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Box, Flex, Stack } from "@chakra-ui/react";
 
 import Header from "@/components/common/Header";
@@ -8,7 +7,7 @@ import Footer from "@/components/common/Footer";
 import theme from "@/styles/theme";
 import { useIsoMediaQuery } from "@/hooks/useMediaQuery";
 
-const MovieDetailLayout = ({ backdrop, aside, children }) => {
+const CinemaDetailLayout = ({ backdrop, aside, children }) => {
   const largerThanLg = useIsoMediaQuery(theme.breakpoints.lg);
 
   if (largerThanLg) {
@@ -65,10 +64,4 @@ const MovieDetailLayout = ({ backdrop, aside, children }) => {
   );
 };
 
-MovieDetailLayout.propTypes = {
-  backdrop: PropTypes.node,
-  aside: PropTypes.node,
-  children: PropTypes.node,
-};
-
-export default MovieDetailLayout;
+export default CinemaDetailLayout;

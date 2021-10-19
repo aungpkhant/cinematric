@@ -37,7 +37,6 @@ const ScreenLayoutWrapper = ({ title, children }) => {
 
 const BrowseLayout = ({
   title,
-  categoryBar,
   status,
   response,
   withPaginate = true,
@@ -50,11 +49,6 @@ const BrowseLayout = ({
       <Box direction="column" mb={2} px={[4, 8]} pt={[4, 6]}>
         <Header />
       </Box>
-      {largerThanMd === false && (
-        <Box ml={[4, 8]} mt={4}>
-          {categoryBar}
-        </Box>
-      )}
       <ScreenLayoutWrapper title={title}>
         {status === "success" && withPaginate && (
           <Center mb={6}>

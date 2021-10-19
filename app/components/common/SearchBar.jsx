@@ -36,7 +36,7 @@ const SearchBar = () => {
           type="text"
           size="md"
           placeholder="Find movies, TV shows..."
-          bg="elevation.200"
+          bg="gray.700"
           border="initial"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}

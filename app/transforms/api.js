@@ -11,15 +11,15 @@ export const appendMediaTypeMovie = (res) => {
   return res;
 };
 
-// export const appendTypeTV = (res) => {
-//   if (res?.data?.results) {
-//     res.data.results = res.data.results.map((item) => ({
-//       ...item,
-//       type: "movie",
-//     }));
-//   }
-//   return res;
-// };
+export const appendMediaTypeTv = (res) => {
+  if (res?.data?.results) {
+    res.data.results = res.data.results.map((item) => ({
+      ...item,
+      media_type: "tv",
+    }));
+  }
+  return res;
+};
 
 export const transformFilterMoiveAndTvFromResults = (res) => {
   if (res?.data?.results) {

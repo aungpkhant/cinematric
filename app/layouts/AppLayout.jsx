@@ -1,6 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Box, Flex, Stack, Link, Text } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
@@ -32,30 +31,16 @@ const ScreenLayoutWrapper = ({ title, children }) => {
   );
 };
 
-const BrowseLayout = ({ title, categoryBar, children }) => {
-  const largerThanMd = useIsoMediaQuery(theme.breakpoints.md);
-
+const AppLayout = ({ title, children }) => {
   return (
     <Flex direction="column" flexGrow="1">
-      <Stack direction="column" mb={2} spacing={6} px={[4, 8]} pt={[4, 6]}>
-        {/* Brand & Profile bar */}
+      <Box direction="column" mb={2} px={[4, 8]} pt={[4, 6]}>
         <Header />
-      </Stack>
-      {largerThanMd === false && (
-        <Box ml={[4, 8]} mt={4}>
-          {categoryBar}
-        </Box>
-      )}
+      </Box>
       <ScreenLayoutWrapper title={title}>{children}</ScreenLayoutWrapper>
       <Footer />
     </Flex>
   );
 };
 
-BrowseLayout.propTypes = {
-  title: PropTypes.node.isRequired,
-  categoryBar: PropTypes.node,
-  children: PropTypes.node.isRequired,
-};
-
-export default BrowseLayout;
+export default AppLayout;

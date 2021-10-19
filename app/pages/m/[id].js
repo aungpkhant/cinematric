@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import SwipeableViews from "react-swipeable-views";
 
 import Cast from "@/components/cinema/Cast";
-import MovieDetailLayout from "@/layouts/movieDetail";
+import CinemaDetailLayout from "@/layouts/CinemaDetailLayout";
 import MovieDetail from "@/components/cinema/movies/MovieDetail";
 import MovieDetailBackdrop from "@/components/cinema/movies/MovieDetailBackdrop";
 import { getMovieDetail } from "@/services/tmdb/movies";
@@ -14,7 +14,7 @@ export default function MovieDetailPage({ movieData }) {
   const backdrops = movieData?.images?.backdrops;
 
   return (
-    <MovieDetailLayout
+    <CinemaDetailLayout
       backdrop={
         <Box
           w="full"
@@ -38,7 +38,7 @@ export default function MovieDetailPage({ movieData }) {
       <Box mt={6}>
         <Cast cast={movieData?.credits.cast.slice(0, 10)} />
       </Box>
-    </MovieDetailLayout>
+    </CinemaDetailLayout>
   );
 }
 

@@ -16,7 +16,7 @@ const CategoryBadge = ({ isActive, href, children }) => {
           py={1}
           borderRadius="md"
           textTransform="initial"
-          colorScheme={isActive ? "apple" : "gray"}
+          colorScheme={isActive ? "blue" : "gray"}
         >
           {children}
         </Badge>

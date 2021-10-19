@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import BrowseLayout from "@/layouts/BrowseLayout";
 import useAsync from "@/hooks/useAsync";
 import { getPopularMovies } from "@/services/tmdb/movies";
-import MovieCategoryBar from "@/components/cinema/movies/MovieCategoryBar";
 
 export default function PopularMoviesPage() {
   const { pathname, query, isReady, push } = useRouter();
@@ -31,7 +30,6 @@ export default function PopularMoviesPage() {
           Popular Movies
         </Heading>
       }
-      categoryBar={<MovieCategoryBar />}
       status={status}
       response={value}
       handlePageChange={handlePageChange}

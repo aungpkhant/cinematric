@@ -5,9 +5,12 @@ import { Divider, Box, Flex, Stack, Link, Text, Icon } from "@chakra-ui/react";
 import { BsBarChartFill } from "react-icons/bs";
 import { HiFire, HiTag } from "react-icons/hi";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { MdMovie, MdDashboard } from "react-icons/md";
+import { RiSlideshow3Fill } from "react-icons/ri";
 
 import { MOVIE_GENRES, TV_GENRES } from "@/constants/tmdb";
 import { useAppUiState } from "@/hooks/useAppUiState";
+import { useAuth } from "@/hooks/useAuth";
 
 const SubLinkWithIcon = ({ icon, href, text, ...props }) => {
   return (
@@ -117,13 +120,87 @@ const TvGenreButtons = ({ shouldDisplay }) => {
   );
 };
 
-const SideBar = () => {
+const SideBarContent = () => {
   const {
     appUiState,
     toggleSidebarMovieGenresExpansion,
     toggleSidebarTvGenresExpansion,
   } = useAppUiState();
+  const { user } = useAuth();
 
+  return (
+    <Stack direction="column" spacing={4} color="gray.100" w="full">
+      <Box>
+        <Text fontSize="2xl" fontWeight="medium" isTruncated>
+          {user?.username || "Guest"}
+        </Text>
+        <Stack pt={2} spacing={3} w="full">
+          <SubLinkWithIcon
+            href="/dashboard"
+            text="Dashboard"
+            icon={MdDashboard}
+          />
+          <SubLinkWithIcon
+            href="/my-movie-list"
+            text="Movie List"
+            icon={MdMovie}
+          />
+          <SubLinkWithIcon
+            href="/my-tv-list"
+            text="Tv List"
+            icon={RiSlideshow3Fill}
+          />
+        </Stack>
+      </Box>
+      <Divider borderColor="gray.500" />
+      <Box>
+        <Text fontSize="2xl" fontWeight="medium">
+          Movies
+        </Text>
+        <Stack pt={2} spacing={3} w="full">
+          <SubLinkWithIcon
+            href="/browse/m/popular"
+            text="Popular"
+            icon={BsBarChartFill}
+          />
+          <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} />
+          <MovieGenreButtons
+            shouldDisplay={appUiState.sidebarMovieGenresExpanded}
+          />
+          <ShowHideButton
+            text={
+              appUiState.sidebarMovieGenresExpanded ? "Hide" : "Show Genres"
+            }
+            shouldShowMore={appUiState.sidebarMovieGenresExpanded}
+            handleShowHideClick={toggleSidebarMovieGenresExpansion}
+          />
+        </Stack>
+      </Box>
+      <Divider borderColor="gray.500" />
+      <Box>
+        <Text fontSize="2xl" fontWeight="medium">
+          TV Shows
+        </Text>
+        <Stack pt={2} spacing={3} w="full">
+          <SubLinkWithIcon
+            href="/browse/tv/popular"
+            text="Popular"
+            icon={BsBarChartFill}
+          />
+          <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} />
+          <TvGenreButtons shouldDisplay={appUiState.sidebarTvGenresExpanded} />
+          <ShowHideButton
+            text={appUiState.sidebarTvGenresExpanded ? "Hide" : "Show Genres"}
+            shouldShowMore={appUiState.sidebarTvGenresExpanded}
+            handleShowHideClick={toggleSidebarTvGenresExpansion}
+          />
+        </Stack>
+      </Box>
+    </Stack>
+  );
+};
+
+const SideBar = () => {
   return (
     <Flex
       minW="240px"
@@ -133,55 +210,10 @@ const SideBar = () => {
       position="sticky"
       alignSelf="flex-start"
     >
-      <Stack direction="column" spacing={4} color="gray.100" w="full">
-        <Box>
-          <Text fontSize="2xl" fontWeight="medium">
-            Movies
-          </Text>
-          <Stack pt={2} spacing={3} w="full">
-            <SubLinkWithIcon
-              href="/browse/m/popular"
-              text="Popular"
-              icon={BsBarChartFill}
-            />
-            <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} />
-            <MovieGenreButtons
-              shouldDisplay={appUiState.sidebarMovieGenresExpanded}
-            />
-            <ShowHideButton
-              text={
-                appUiState.sidebarMovieGenresExpanded ? "Hide" : "Show Genres"
-              }
-              shouldShowMore={appUiState.sidebarMovieGenresExpanded}
-              handleShowHideClick={toggleSidebarMovieGenresExpansion}
-            />
-          </Stack>
-        </Box>
-        <Divider borderColor="gray.500" />
-        <Box>
-          <Text fontSize="2xl" fontWeight="medium">
-            TV Shows
-          </Text>
-          <Stack pt={2} spacing={3} w="full">
-            <SubLinkWithIcon
-              href="/browse/tv/popular"
-              text="Popular"
-              icon={BsBarChartFill}
-            />
-            <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} />
-            <TvGenreButtons
-              shouldDisplay={appUiState.sidebarTvGenresExpanded}
-            />
-            <ShowHideButton
-              text={appUiState.sidebarTvGenresExpanded ? "Hide" : "Show Genres"}
-              shouldShowMore={appUiState.sidebarTvGenresExpanded}
-              handleShowHideClick={toggleSidebarTvGenresExpansion}
-            />
-          </Stack>
-        </Box>
-      </Stack>
+      <SideBarContent />
     </Flex>
   );
 };
 
+export { SideBarContent };
 export default SideBar;

@@ -19,6 +19,7 @@ import { parseISO, format } from "date-fns";
 import { TMDB_IMG_BASE_URL, TMDB_POSTER_SIZES } from "@/constants/tmdb";
 import { mapTvGenreIdToGenre } from "@/utils/tv";
 import Poster404 from "@/assets/FourOFour/poster-404.jpg";
+import AddToListButton from "@/components/media-lists/AddToListButton";
 
 const TvCard = ({
   id,
@@ -28,6 +29,7 @@ const TvCard = ({
   first_air_date,
   vote_average,
   poster_path,
+  media_type,
 }) => {
   return (
     <NextLink href={`/tv/${id}`}>
@@ -122,17 +124,9 @@ const TvCard = ({
               </Flex>
             </Flex>
             <Box flexShrink="0" display={["initial", "initial", "none"]}>
-              <Button
-                isFullWidth
-                size="sm"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
-                colorScheme="apple"
-                color="apple.800"
-              >
-                Watch Trailer
-              </Button>
+              <AddToListButton media_id={id} media_type={media_type}>
+                Add to TV List
+              </AddToListButton>
             </Box>
           </Flex>
         </Flex>

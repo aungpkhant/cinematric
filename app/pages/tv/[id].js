@@ -1,6 +1,6 @@
 import { Box, Center } from "@chakra-ui/react";
 
-import MovieDetailLayout from "@/layouts/movieDetail";
+import CinemaDetailLayout from "@/layouts/CinemaDetailLayout";
 import TvDetail from "@/components/cinema/tv/TvDetail";
 import Cast from "@/components/cinema/Cast";
 import CinemaSwipableBackdrop from "@/components/cinema/CinemaSwipableBackdrop";
@@ -12,20 +12,20 @@ export default function TVDetailPage({ tvData }) {
   // ! Use this instead of NextJs default 404?
   // if (error) {
   //   return (
-  //     <MovieDetailLayout backdrop={null}>
+  //     <CinemaDetailLayout backdrop={null}>
   //       {error?.response?.status === 404 ? (
   //         <FourOFour />
   //       ) : (
   //         <SomethingWentWrong />
   //       )}
-  //     </MovieDetailLayout>
+  //     </CinemaDetailLayout>
   //   );
   // }
 
   const backdrops = tvData?.images?.backdrops;
 
   return (
-    <MovieDetailLayout
+    <CinemaDetailLayout
       backdrop={
         <Box
           w="full"
@@ -49,7 +49,7 @@ export default function TVDetailPage({ tvData }) {
       <Box mt={6}>
         <Cast cast={tvData?.credits.cast.slice(0, 10)} />
       </Box>
-    </MovieDetailLayout>
+    </CinemaDetailLayout>
   );
 }
 
