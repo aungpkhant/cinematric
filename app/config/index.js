@@ -14,7 +14,7 @@ const config = {
       URL: "https://cinematric.xyz", // dont give "/" at the end
     },
     api: {
-      ENDPOINT: "http://api.cinematric.xyz/api/",
+      ENDPOINT: "https://api.cinematric.xyz/api/",
     },
   },
 };
