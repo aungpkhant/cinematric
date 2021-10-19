@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import BrowseLayout from "@/layouts/BrowseLayout";
 import useAsync from "@/hooks/useAsync";
 import { getPopularTv } from "@/services/tmdb/tv";
-import TvCategoryBar from "@/components/cinema/tv/TvCategoryBar";
 
 export default function PopularTvPage() {
   const { pathname, query, isReady, push } = useRouter();
@@ -31,7 +30,6 @@ export default function PopularTvPage() {
           Popular TV Shows
         </Heading>
       }
-      categoryBar={<TvCategoryBar />}
       status={status}
       response={value}
       handlePageChange={handlePageChange}

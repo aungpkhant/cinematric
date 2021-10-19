@@ -24,8 +24,9 @@ import {
   deleteFromMediaList,
   editMediaListing,
 } from "@/services/backend/mediaLists";
+import TvRow from "./TvRow";
 
-const MovieListTable = ({ listings, refresh }) => {
+const TvListTable = ({ listings, refresh }) => {
   const toast = useToast();
 
   // Delete Listing
@@ -116,7 +117,7 @@ const MovieListTable = ({ listings, refresh }) => {
           <Thead>
             <Tr>
               <Th>Image</Th>
-              <Th>Movie Title</Th>
+              <Th>Show Title</Th>
               <Th>Status</Th>
               <Th>Updated At</Th>
               <Th>Actions</Th>
@@ -124,12 +125,13 @@ const MovieListTable = ({ listings, refresh }) => {
           </Thead>
           <Tbody color="gray.200">
             {listings.map((listing) => (
-              <MovieRow
+              <TvRow
                 key={listing.id}
                 listingId={listing.id}
                 listingStatus={listing.status}
                 listingRemark={listing.remark}
                 listingUpdatedAt={listing.updated_at}
+                title={listing.media_item.name}
                 {...listing.media_item}
                 handleDeleteIconClicked={handleDeleteIconClicked}
                 handleEditIconClicked={handleEditIconClicked}
@@ -186,4 +188,4 @@ const MovieListTable = ({ listings, refresh }) => {
   );
 };
 
-export default MovieListTable;
+export default TvListTable;

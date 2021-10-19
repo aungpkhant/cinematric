@@ -44,7 +44,11 @@ const EditListingModal = ({
   };
 
   return (
-    <Modal isOpen={editModalIsOpen} onClose={closeEditModal}>
+    <Modal
+      isOpen={editModalIsOpen}
+      onClose={closeEditModal}
+      initialFocusRef={cancelEditButtonRef}
+    >
       <ModalOverlay />
       {itemToEdit && (
         <form onSubmit={handleSubmit(onSubmit)}>

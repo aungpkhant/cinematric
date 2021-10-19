@@ -1,12 +1,11 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   Heading,
   Tabs,
   TabList,
-  TabPanels,
   Tab,
-  TabPanel,
-  Text,
 } from "@chakra-ui/react";
 import { useCallback, useState, useEffect } from "react";
 
@@ -126,7 +125,10 @@ export default function MyMovieListPage() {
                 </>
               )}
               {listState.status === "error" && (
-                <Text>Something went wrong</Text>
+                <Alert status="error">
+                  <AlertIcon />
+                  Something went wrong. Try refreshing.
+                </Alert>
               )}
             </Box>
           </Tabs>

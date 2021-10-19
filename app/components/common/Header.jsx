@@ -14,6 +14,7 @@ import {
   Heading,
   IconButton,
   Flex,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
@@ -25,7 +26,7 @@ import AvatarMenu from "./AvatarMenu";
 import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
-  const { user } = useAuth();
+  const { user, signout } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const drawerButtonRef = React.useRef();
 
@@ -68,10 +69,31 @@ const Header = () => {
         <DrawerOverlay />
         <DrawerContent bg="gray.800">
           <DrawerHeader>
-            Welcome!
+            <Flex justifyContent="space-between" alignItems="flex-end">
+              <Text isTruncated>Welcome!</Text>
+              {user ? (
+                <Button
+                  colorScheme="blue"
+                  variant="outline"
+                  onClick={() => {
+                    signout();
+                  }}
+                >
+                  Sign out
+                </Button>
+              ) : (
+                <NextLink href="/sign-in" passHref>
+                  <Button colorScheme="blue" variant="outline" as="a">
+                    Sign in
+                  </Button>
+                </NextLink>
+              )}
+            </Flex>
             <Divider borderColor="gray.500" mt={3} />
+            <Box mt={3}>
+              <SearchBar />
+            </Box>
           </DrawerHeader>
-
           <DrawerBody>
             <SideBarContent />
           </DrawerBody>

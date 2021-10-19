@@ -7,8 +7,6 @@ import useAsync from "@/hooks/useAsync";
 import { MOVIE_GENRES } from "@/constants/tmdb";
 import { getMoviesByGenre } from "@/services/tmdb/movies";
 
-import MovieCategoryBar from "@/components/cinema/movies/MovieCategoryBar";
-
 export default function BrowseMovieGenrePage({ genre }) {
   const { asPath, query, isReady, push } = useRouter();
 
@@ -33,7 +31,6 @@ export default function BrowseMovieGenrePage({ genre }) {
           {genre.value} Movies
         </Heading>
       }
-      categoryBar={<MovieCategoryBar />}
       status={status}
       response={value}
       handlePageChange={handlePageChange}

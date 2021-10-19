@@ -1,28 +1,27 @@
 import React, { useState, useRef } from "react";
 import {
-  chakra,
   Flex,
   Image,
   IconButton,
   Tag,
   Tr,
   Td,
-  Text,
   Link,
+  Text,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
 import { FaEdit, FaTrash, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import NextLink from "next/link";
 
 import { formatDateTimeToHumanReadable } from "@/utils/functions";
 import { LISTING_STATUS_ENUM } from "@/constants/cinematric";
 import { TMDB_POSTER_SIZES, TMDB_IMG_BASE_URL } from "@/constants/tmdb";
 
-const MovieRow = ({
+const TvRow = ({
+  id,
   listingId,
   listingStatus,
   listingUpdatedAt,
   listingRemark,
-  id,
   title,
   poster_path,
   overview,
@@ -49,7 +48,7 @@ const MovieRow = ({
           />
         </Td>
         <Td color="blue.100">
-          <Link as={NextLink} href={`/m/${id}`}>
+          <Link as={NextLink} href={`/tv/${id}`}>
             {title}
           </Link>
         </Td>
@@ -117,4 +116,4 @@ const MovieRow = ({
   );
 };
 
-export default MovieRow;
+export default TvRow;
