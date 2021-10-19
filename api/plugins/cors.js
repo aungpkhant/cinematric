@@ -7,7 +7,7 @@ module.exports = fp(async function (fastify, opts) {
     origin:
       process.env.NODE_ENV === "development"
         ? ["http://localhost:3000"]
-        : ["https://vercel.app"],
+        : ["https://cinematric.vercel.app", "https://cinematric.xyz"],
     credentials: true,
     methods: ["GET", "PUT", "POST", "DELETE"],
   });
