@@ -163,7 +163,7 @@ const SideBarContent = () => {
             text="Popular"
             icon={BsBarChartFill}
           />
-          <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} />
+          {/* <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} /> */}
           <MovieGenreButtons
             shouldDisplay={appUiState.sidebarMovieGenresExpanded}
           />
@@ -187,7 +187,7 @@ const SideBarContent = () => {
             text="Popular"
             icon={BsBarChartFill}
           />
-          <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} />
+          {/* <SubLinkWithIcon href="/" text="Upcoming" icon={HiFire} /> */}
           <TvGenreButtons shouldDisplay={appUiState.sidebarTvGenresExpanded} />
           <ShowHideButton
             text={appUiState.sidebarTvGenresExpanded ? "Hide" : "Show Genres"}

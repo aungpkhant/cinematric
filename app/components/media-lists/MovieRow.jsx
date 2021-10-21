@@ -1,21 +1,11 @@
 import React, { useState, useRef } from "react";
-import {
-  chakra,
-  Flex,
-  Image,
-  IconButton,
-  Tag,
-  Tr,
-  Td,
-  Text,
-  Link,
-} from "@chakra-ui/react";
+import { Flex, Image, IconButton, Tr, Td, Text, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { FaEdit, FaTrash, FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 import { formatDateTimeToHumanReadable } from "@/utils/functions";
-import { LISTING_STATUS_ENUM } from "@/constants/cinematric";
 import { TMDB_POSTER_SIZES, TMDB_IMG_BASE_URL } from "@/constants/tmdb";
+import StatusTag from "@/components/media-lists/StatusTag";
 
 const MovieRow = ({
   listingId,
@@ -54,9 +44,7 @@ const MovieRow = ({
           </Link>
         </Td>
         <Td>
-          <Tag colorScheme="blue">
-            {LISTING_STATUS_ENUM[listingStatus].text}
-          </Tag>
+          <StatusTag status={listingStatus} />
         </Td>
         <Td color="gray.400">
           {formatDateTimeToHumanReadable(listingUpdatedAt)}

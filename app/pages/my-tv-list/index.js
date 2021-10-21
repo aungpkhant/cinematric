@@ -17,9 +17,10 @@ import ListMetaData from "@/components/media-lists/ListMetaData";
 import TvListTable from "@/components/media-lists/TvListTable";
 import { LISTING_STATUS_ENUM } from "@/constants/cinematric";
 import AuthCheck from "@/components/auth/AuthCheck";
+import StatusSelect from "@/components/media-lists/StatusSelect";
 
 export default function MyTvListPage() {
-  const [listStatus, setListStatus] = useState(null);
+  const [listStatus, setListStatus] = useState("all");
   const [listState, setListState] = useState({
     status: "idle",
     data: null,
@@ -30,6 +31,10 @@ export default function MyTvListPage() {
     setListStatus(status);
   };
 
+  const handleStatusSelect = (e) => {
+    setListStatus(e.target.value);
+  };
+
   // * https://stackoverflow.com/questions/26076511/handling-multiple-catches-in-promise-chain
   const fetchData = useCallback(() => {
     setListState({
@@ -37,7 +42,7 @@ export default function MyTvListPage() {
       status: "pending",
       error: null,
     });
-    getMyTvList(listStatus == null ? {} : { status: listStatus })
+    getMyTvList(listStatus === "all" ? {} : { status: listStatus })
       .then(
         (res) => {
           return res.data;
@@ -95,9 +100,9 @@ export default function MyTvListPage() {
     >
       <AuthCheck>
         <Box>
-          <Tabs colorScheme="blue">
+          <Tabs colorScheme="blue" display={["none", "none", "initial"]}>
             <TabList>
-              <Tab onClick={() => handleTabClick(null)}>All</Tab>
+              <Tab onClick={() => handleTabClick("all")}>All</Tab>
               {Object.values(LISTING_STATUS_ENUM).map((statusObj) => (
                 <Tab
                   key={statusObj.value}
@@ -107,28 +112,35 @@ export default function MyTvListPage() {
                 </Tab>
               ))}
             </TabList>
-            <Box pt={5}>
-              {listState.status === "pending" && <MediaListSkeleton />}
-              {listState.status === "success" && (
-                <>
-                  <ListMetaData
-                    count={listState.data.count}
-                    updatedAt={listState.data.updated_at}
-                  />
-                  <TvListTable
-                    listings={listState.data.items}
-                    refresh={fetchData}
-                  />
-                </>
-              )}
-              {listState.status === "error" && (
-                <Alert status="error">
-                  <AlertIcon />
-                  Something went wrong. Try refreshing.
-                </Alert>
-              )}
-            </Box>
           </Tabs>
+
+          <StatusSelect
+            value={listStatus}
+            onChange={handleStatusSelect}
+            display={["initial", "initial", "none"]}
+          />
+
+          <Box pt={5}>
+            {listState.status === "pending" && <MediaListSkeleton />}
+            {listState.status === "success" && (
+              <>
+                <ListMetaData
+                  count={listState.data.count}
+                  updatedAt={listState.data.updated_at}
+                />
+                <TvListTable
+                  listings={listState.data.items}
+                  refresh={fetchData}
+                />
+              </>
+            )}
+            {listState.status === "error" && (
+              <Alert status="error">
+                <AlertIcon />
+                Something went wrong. Try refreshing.
+              </Alert>
+            )}
+          </Box>
         </Box>
       </AuthCheck>
     </AppLayout>

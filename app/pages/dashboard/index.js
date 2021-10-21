@@ -1,4 +1,4 @@
-import { Heading } from "@chakra-ui/react";
+import { Heading, Center, Text } from "@chakra-ui/react";
 
 import AppLayout from "@/layouts/AppLayout";
 
@@ -10,6 +10,10 @@ export default function DashboardPage() {
           Dashboard
         </Heading>
       }
-    ></AppLayout>
+    >
+      <Center h="200px" bg="elevation.200" color="gray.400" borderRadius={6}>
+        <Text>-- Coming Soon --</Text>
+      </Center>
+    </AppLayout>
   );
 }

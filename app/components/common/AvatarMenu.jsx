@@ -29,7 +29,6 @@ const AvatarMenu = () => {
         <Avatar name={user.username} />
       </MenuButton>
       <MenuList>
-        <MenuItem>Profile</MenuItem>
         <MenuItem
           onClick={() => {
             signout();
